@@ -1,0 +1,1026 @@
+[
+  {
+    "name": "stable",
+    "url": "https://kubernetes-charts.storage.googleapis.com",
+    "maintainers": [
+      {
+        "name": "Helm Project",
+        "email": "cncf-helm-security@lists.cncf.io"
+      }
+    ]
+  },
+  {
+    "name": "incubator",
+    "url": "https://kubernetes-charts-incubator.storage.googleapis.com",
+    "maintainers": [
+      {
+        "name": "Helm Project",
+        "email": "cncf-helm-security@lists.cncf.io"
+      }
+    ]
+  },
+  {
+    "name": "jfrog",
+    "url": "https://charts.jfrog.io",
+    "maintainers": [
+      {
+        "email": "devops@jfrog.com",
+        "name": "jfrog"
+      }
+    ]
+  },
+  {
+    "name": "kremers",
+    "url": "https://kremers.github.io",
+    "maintainers": [
+      {
+        "name": "kremers",
+        "email": "info@martinkremers.de"
+      },
+      {
+        "name": "pryorda",
+        "email": "daniel@pryorda.net"
+      }
+    ]
+  },
+  {
+    "name": "linkerd2",
+    "url": "https://helm.linkerd.io/stable",
+    "maintainers": [
+      {
+        "name": "Linkerd authors",
+        "email": "cncf-linkerd-dev@lists.cncf.io"
+      }
+    ]
+  },
+  {
+    "name": "linkerd2-edge",
+    "url": "https://helm.linkerd.io/edge",
+    "maintainers": [
+      {
+        "name": "Linkerd authors",
+        "email": "cncf-linkerd-dev@lists.cncf.io"
+      }
+    ]
+  },
+  {
+    "name": "rimusz",
+    "url": "https://charts.rimusz.net",
+    "maintainers": [
+      {
+        "email": "rmocius@gmail.com",
+        "name": "rimusz"
+      }
+    ]
+  },
+  {
+    "name": "buildkite",
+    "url": "https://buildkite.github.io/charts",
+    "maintainers": [
+      {
+        "email": "rmocius@gmail.com",
+        "name": "rimusz"
+      }
+    ]
+  },
+  {
+    "name": "keel",
+    "url": "https://charts.keel.sh",
+    "maintainers": [
+      {
+        "email": "karolis.rusenas@gmail.com",
+        "name": "rusenask"
+      }
+    ]
+  },
+  {
+    "name": "appscode",
+    "url": "https://charts.appscode.com/stable/",
+    "maintainers": [
+      {
+        "name": "AppsCode Inc",
+        "email": "support@appscode.com"
+      }
+    ]
+  },
+  {
+    "name": "gitlab",
+    "url": "https://charts.gitlab.io/",
+    "maintainers": [
+      {
+        "name": "GitLab",
+        "email": "distribution@gitlab.com"
+      }
+    ]
+  },
+  {
+    "name": "bitnami",
+    "url": "https://charts.bitnami.com",
+    "maintainers": [
+      {
+        "name": "Bitnami",
+        "email": "containers@bitnami.com"
+      }
+    ]
+  },
+  {
+    "name": "fluxcd",
+    "url": "https://charts.fluxcd.io",
+    "maintainers": [
+      {
+        "email": "cncf-flux-support@lists.cncf.io",
+        "name": "Flux project"
+      }
+    ]
+  },
+  {
+    "name": "jetstack",
+    "url": "https://charts.jetstack.io/",
+    "maintainers": [
+      {
+        "email": "james.munnelly@jetstack.io",
+        "name": "James Munnelly"
+      },
+      {
+        "email": "christian.simon@jetstack.io",
+        "name": "Christian Simon"
+      }
+    ]
+  },
+  {
+    "name": "ibm-charts",
+    "url": "https://raw.githubusercontent.com/IBM/charts/master/repo/stable/",
+    "maintainers": [
+      {
+        "email": "icp@ibm.com",
+        "name": "IBM Cloud Private"
+      }
+    ]
+  },
+  {
+    "name": "kanister",
+    "url": "https://charts.kanister.io/",
+    "maintainers": [
+      {
+        "email": "helm@kasten.io",
+        "name": "Kanister"
+      }
+    ]
+  },
+  {
+    "name": "flagger",
+    "url": "https://flagger.app",
+    "maintainers": [
+      {
+        "email": "stefan.prodan@gmail.com",
+        "name": "Stefan Prodan"
+      }
+    ]
+  },
+  {
+    "name": "zammad",
+    "url": "https://zammad.github.io",
+    "maintainers": [
+      {
+        "email": "monotek23@gmail.com",
+        "name": "André Bauer"
+      }
+    ]
+  },
+  {
+    "name": "agones",
+    "url": "https://agones.dev/chart/stable",
+    "maintainers": [
+      {
+        "email": "agones-discuss@googlegroups.com",
+        "name": "agones"
+      }
+    ]
+  },
+  {
+    "name": "banzaicloud-stable",
+    "url": "https://kubernetes-charts.banzaicloud.com",
+    "maintainers": [
+      {
+        "name": "Banzai Cloud",
+        "email": "info@banzaicloud.com"
+      }
+    ]
+  },
+  {
+    "name": "kiwigrid",
+    "url": "https://kiwigrid.github.io",
+    "maintainers": [
+      {
+        "email": "andre.bauer@kiwigrid.com",
+        "name": "André Bauer"
+      },
+      {
+        "email": "axel.koehler@kiwigrid.com",
+        "name": "Axel Koehler"
+      }
+    ]
+  },
+  {
+    "name": "elastic",
+    "url": "https://helm.elastic.co",
+    "maintainers": [
+      {
+        "email": "helm-charts@elastic.co",
+        "name": "Elastic"
+      }
+    ]
+  },
+  {
+    "name": "openfaas",
+    "url": "https://openfaas.github.io/faas-netes",
+    "maintainers": [
+      {
+        "email": "alex@openfaas.com",
+        "name": "Alex Ellis"
+      },
+      {
+        "email": "roesler.lucas@gmail.com",
+        "name": "Lucas Roesler"
+      },
+      {
+        "email": "stefan.prodan@gmail.com",
+        "name": "Stefan Prodan"
+      }
+    ]
+  },
+  {
+    "name": "odavid",
+    "url": "https://odavid.github.io/k8s-helm-charts",
+    "maintainers": [
+      {
+        "email": "ohad.david@gmail.com",
+        "name": "Ohad David"
+      }
+    ]
+  },
+  {
+    "name": "soluto",
+    "url": "https://charts.soluto.io",
+    "maintainers": [
+      {
+        "email": "charts-maintainers@soluto.com",
+        "name": "Soluto"
+      }
+    ]
+  },
+  {
+    "name": "hephy",
+    "url": "https://charts.teamhephy.com",
+    "maintainers": [
+      {
+        "name": "Team Hephy",
+        "email": "team@teamhephy.com"
+      }
+    ]
+  },
+  {
+    "name": "gabibbo97",
+    "url": "https://gabibbo97.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "gabibbo97@gmail.com",
+        "name": "Giacomo Longo"
+      }
+    ]
+  },
+  {
+    "name": "presslabs",
+    "url": "https://presslabs.github.io/charts",
+    "maintainers": [
+      {
+        "email": "ping@presslabs.com",
+        "name": "Presslabs"
+      },
+      {
+        "email": "calin@presslabs.com",
+        "name": "Calin Don"
+      }
+    ]
+  },
+  {
+    "name": "eventstore",
+    "url": "https://eventstore.github.io/EventStore.Charts",
+    "maintainers": [
+      {
+        "email": "riccardo@dinuzzo.it",
+        "name": "Riccardo Di Nuzzo"
+      },
+      {
+        "email": "ameier38@gmail.com",
+        "name": "Andrew Meier"
+      },
+      {
+        "email": "jhinds2010@gmail.com",
+        "name": "Jonathan Hinds"
+      }
+    ]
+  },
+  {
+    "name": "pnnl-miscscripts",
+    "url": "https://pnnl-miscscripts.github.io/charts",
+    "maintainers": [
+      {
+        "email": "Kevin.Fox@pnnl.gov",
+        "name": "Kevin Fox"
+      }
+    ]
+  },
+  {
+    "name": "ceph-csi",
+    "url": "https://ceph.github.io/csi-charts",
+    "maintainers": [
+      {
+        "email": "ceph-devel@vger.kernel.org",
+        "name": "Ceph Developers"
+      }
+    ]
+  },
+  {
+    "name": "fairwinds-stable",
+    "url": "https://charts.fairwinds.com/stable",
+    "maintainers": [
+      {
+        "email": "chart-maintainers@fairwinds.com",
+        "name": "Fairwinds Chart Maintainers"
+      }
+    ]
+  },
+  {
+    "name": "yourls",
+    "url": "https://charts.yourls.org",
+    "maintainers": [
+      {
+        "email": "yourls@yourls.org",
+        "name": "YOURLS"
+      }
+    ]
+  },
+  {
+    "name": "hazelcast",
+    "url": "https://hazelcast.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "rafal@hazelcast.com",
+        "name": "Rafal Leszko"
+      },
+      {
+        "email": "guglielmo@hazelcast.com",
+        "name": "Guglielmo Nigri"
+      },
+      {
+        "email": "mesut@hazelcast.com",
+        "name": "Mesut Celik"
+      }
+    ]
+  },
+  {
+    "name": "nginx",
+    "url": "https://helm.nginx.com/stable",
+    "maintainers": [
+      {
+        "email": "kubernetes@nginx.com"
+      }
+    ]
+  },
+  {
+    "name": "cic",
+    "url": "https://citrix.github.io/citrix-k8s-ingress-controller/",
+    "maintainers": [
+      {
+        "email": "priyanka.sharma@citrix.com"
+      },
+      {
+        "email": "subash.dangol@citrix.com"
+      }
+    ]
+  },
+  {
+    "name": "citrix",
+    "url": "https://citrix.github.io/citrix-istio-adaptor/",
+    "maintainers": [
+      {
+        "email": "dhiraj.gedam@citrix.com"
+      },
+      {
+        "email": "subash.dangol@citrix.com"
+      }
+    ]
+  },
+  {
+    "name": "zooz",
+    "url": "https://zooz.github.io/helm/",
+    "maintainers": [
+      {
+        "email": "enudler@gmail.com"
+      }
+    ]
+  },
+  {
+    "name": "rancher-stable",
+    "url": "https://releases.rancher.com/server-charts/stable",
+    "maintainers": [
+      {
+        "email": "charts@rancher.com"
+      }
+    ]
+  },
+  {
+    "name": "loki",
+    "url": "https://grafana.github.io/loki/charts",
+    "maintainers": [
+      {
+        "name": "Loki Maintainers",
+        "email": "lokiproject@googlegroups.com"
+      }
+    ]
+  },
+  {
+    "name": "microsoft",
+    "url": "https://microsoft.github.io/charts/repo/",
+    "maintainers": [
+      {
+        "name": "mstf-charts",
+        "email": "msft-charts-support@microsoft.com"
+      },
+      {
+        "email": "dabanda@microsoft.com"
+      }
+    ]
+  },
+  {
+    "name": "codecentric",
+    "url": "https://codecentric.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "unguiculus+helm-charts@gmail.com"
+      }
+    ]
+  },
+  {
+    "name": "okgolove",
+    "url": "https://okgolove.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "okgolove@markeloff.net"
+      }
+    ]
+  },
+  {
+    "name": "dhiatn",
+    "url": "https://dhiatn.github.io/helm-kafka-topics-ui",
+    "maintainers": [
+      {
+        "email": "dhia.absi+helm@gmail.com"
+      }
+    ]
+  },
+  {
+    "name": "k8dash",
+    "url": "https://herbrandson.github.io/k8dash/helm",
+    "maintainers": [
+      {
+        "email": "eric@herbrandson.com"
+      }
+    ]
+  },
+  {
+    "name": "funkypenguin",
+    "url": "https://funkypenguin.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "helm-charts@funkypenguin.co.nz"
+      }
+    ]
+  },
+  {
+    "name": "mattermost",
+    "url": "https://helm.mattermost.com",
+    "maintainers": [
+      {
+        "email": "ctadeu@gmail.com"
+      }
+    ]
+  },
+  {
+    "name": "emberstack",
+    "url": "https://emberstack.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "helm-charts@emberstack.com",
+        "name": "Romeo Dumitrescu"
+      }
+    ]
+  },
+  {
+    "name": "appuio",
+    "url": "https://charts.appuio.ch",
+    "maintainers": [
+      {
+        "email": "info@appuio.ch",
+        "name": "APPUiO Team"
+      }
+    ]
+  },
+  {
+    "name": "gomods",
+    "url": "https://athens.blob.core.windows.net/charts",
+    "maintainers": [
+      {
+        "email": "aaron@ecomaz.net",
+        "name": "Aaron Schlesinger"
+      }
+    ]
+  },
+  {
+    "name": "zentainer",
+    "url": "https://charts.zenatiner.app",
+    "maintainers": [
+      {
+        "name": "Will Newby",
+        "email": "will@zentainer.app"
+      }
+    ]
+  },
+  {
+    "name": "promitor",
+    "url": "https://promitor.azurecr.io/helm/v1/repo",
+    "maintainers": [
+      {
+        "email": "kerkhove.tom@gmail.com",
+        "name": "Tom Kerkhove"
+      }
+    ]
+  },
+  {
+    "name": "kir4h",
+    "url": "https://kir4h.github.io/charts",
+    "maintainers": [
+      {
+        "name": "Andres Alvarez",
+        "email": "kir4h.gh@gmail.com"
+      }
+    ]
+  },
+  {
+    "name": "hmdmph",
+    "url": "https://hmdmph.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "hmdmph@gmail.com",
+        "name": "Manoj Prasanna Handapangoda"
+      }
+    ]
+  },
+  {
+    "name": "mtls",
+    "url": "https://drgrove.github.io/charts",
+    "maintainers": [
+      {
+        "email": "danny@drgrovellc.com",
+        "name": "Danny Grove"
+      }
+    ]
+  },
+  {
+    "name": "harbor",
+    "url": "https://helm.goharbor.io",
+    "maintainers": [
+      {
+        "email": "yinw@vmware.com",
+        "name": "Wenkai Yin"
+      },
+      {
+        "email": "jiangd@vmware.com",
+        "name": "Daniel Jiang"
+      }
+    ]
+  },
+  {
+    "name": "appdynamics",
+    "url": "https://appdynamics.github.io/appdynamics-charts",
+    "maintainers": [
+      {
+        "email": "sasha.jeltuhin@appdynamics.com",
+        "name": "Sasha Jeltuhin"
+      }
+    ]
+  },
+  {
+    "name": "billimek",
+    "url": "https://billimek.com/billimek-charts/",
+    "maintainers": [
+      {
+        "email": "jeff@billimek.com",
+        "name": "Jeff Billimek"
+      }
+    ]
+  },
+  {
+    "name": "choerodon",
+    "url": "https://openchart.choerodon.com.cn/choerodon/c7n",
+    "maintainers": [
+      {
+        "email": "dong@wenqi.us",
+        "name": "Vink Dong"
+      }
+    ]
+  },
+  {
+    "name": "kedacore",
+    "url": "https://kedacore.azureedge.net/helm",
+    "maintainers": [
+      {
+        "email": "ahmels@microsoft.com",
+        "name": "Ahmed ElSayed"
+      }
+    ]
+  },
+  {
+    "name": "seldon",
+    "url": "https://storage.googleapis.com/seldon-charts",
+    "maintainers": [
+      {
+        "email": "cc@seldon.io",
+        "name": "Clive Cox"
+      },
+      {
+        "email": "gs@seldon.io",
+        "name": "Gurminder Sunner"
+      },
+      {
+        "email": "rd@seldon.io",
+        "name": "Ryan Dawson"
+      }
+    ]
+  },
+  {
+    "name": "gkarthiks",
+    "url": "https://gkarthiks.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "github.gkarthiks@gmail.com",
+        "name": "Karthikeyan Govindaraj"
+      }
+    ]
+  },
+  {
+    "name": "opsdroid",
+    "url": "https://helm.opsdroid.dev/",
+    "maintainers": [
+      {
+        "email": "jacob@tomlinson.email",
+        "name": "Jacob Tomlinson"
+      }
+    ]
+  },
+  {
+    "name": "privatebin",
+    "url": "https://privatebin.github.io/helm-chart/",
+    "maintainers": [
+      {
+        "email": "support@privatebin.org",
+        "name": "PrivateBin maintainers"
+      }
+    ]
+  },
+  {
+    "name": "gresearch",
+    "url": "https://g-research.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "g.research.oss@gmail.com",
+        "name": "G-Research Open Source Developers"
+      }
+    ]
+  },
+  {
+    "name": "smallstep",
+    "url": "https://smallstep.github.io/helm-charts/",
+    "mainteiners": [
+      {
+        "email": "techadmin@smallstep.com",
+        "name": "Smallstep Open Source Developers"
+      }
+    ]
+  },
+  {
+    "name": "volcano",
+    "url": "https://volcano-sh.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "klaus1982.cn@gmail.com",
+        "name": "k82cn"
+      },
+      {
+        "email": "kevinwzf0126@gmail.com",
+        "name": "kevin-wangzefeng"
+      }
+    ]
+  },
+  {
+    "name": "ory",
+    "url": "https://k8s.ory.sh/helm/charts",
+    "maintainers": [
+      {
+        "name": "ORY Maintainers",
+        "email": "hi@ory.sh"
+      }
+    ]
+  },
+  {
+    "name": "cetic",
+    "url": "https://cetic.github.io/helm-charts",
+    "maintainers": [
+      {
+        "email": "alexandre.nuttinck@cetic.be",
+        "name": "alexnuttinck"
+      },
+      {
+        "email": "sebastien.dupont@cetic.be",
+        "name": "banzo"
+      }
+    ]
+  },
+  {
+    "name": "qamatic",
+    "url": "https://qamatic.github.io/charts",
+    "maintainers": [
+      {
+        "email": "senips@gmail.com",
+        "name": "Senthil Maruthaiappan"
+      },
+      {
+        "email": "qamatic@gmail.com",
+        "name": "QAMatic Team"
+      }
+    ]
+  },
+  {
+    "name": "sstarcher",
+    "url": "https://shanestarcher.com/helm-charts/",
+    "maintainers": [
+      {
+        "email": "shane.starcher@gmail.com",
+        "name": "Shane Starcher"
+      }
+    ]
+  },
+  {
+    "name": "lifen",
+    "url": "https://honestica.github.io/lifen-charts/",
+    "maintainers": [
+      {
+        "email": "matthieu.paret@lifen.fr",
+        "name": "Matthieu Paret"
+      }
+    ]
+  },
+  {
+    "name": "owkin",
+    "url": "https://owkin.github.io/charts",
+    "maintainers": [
+      {
+        "email": "devops@owkin.com",
+        "name": "Owkin DevOps"
+      },
+      {
+        "email": "clement.gauter@owkin.com",
+        "name": "Clément Gautier"
+      }
+    ]
+  },
+  {
+    "name": "simplyzee",
+    "url": "https://charts.simplyzee.dev/",
+    "maintainers": [
+      {
+        "email": "zeieshanahmed@icloud.com",
+        "name": "Zee Ahmed"
+      }
+    ]
+  },
+  {
+    "name": "mirusresearch",
+    "url": "https://mirusresearch.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "alec@mirusresearch.com",
+        "name": "Alec Troemel"
+      },
+      {
+        "email": "don@mirusresearch.com",
+        "name": "Don Spaulding"
+      }
+    ]
+  },
+  {
+    "name": "forseti-security",
+    "url": "https://forseti-security-charts.storage.googleapis.com/release/",
+    "maintainers": [
+      {
+        "email": "kdevensen@forsetisecurity.org",
+        "name": "Ken Evensen"
+      },
+      {
+        "email": "shinhannah@forsetisecurity.org",
+        "name": "Hannah Shin"
+      }
+    ]
+  },
+  {
+    "name": "hue",
+    "url": "https://helm.gethue.com",
+    "maintainers": [
+      {
+        "email": "romain.rigaux@gmail.com",
+        "name": "Romain Rigaux"
+      },
+      {
+        "email": "team@gethue.com",
+        "name": "Hue Team"
+      }
+    ]
+  },
+  {
+    "name": "t3n",
+    "url": "https://storage.googleapis.com/t3n-helm-charts",
+    "maintainers": [
+      {
+        "email": "max.schmidt@t3n.de",
+        "name": "mschmidt291"
+      }
+    ]
+  },
+  {
+    "name": "kubedex",
+    "url": "https://kubedex.github.io/charts",
+    "maintainers": [
+      {
+        "email": "sacreman@gmail.com",
+        "name": "Steven Acreman"
+      },
+      {
+        "email": "gamunu.balagalla@outlook.com",
+        "name": "Gamunu Balagalla"
+      }
+    ]
+  },
+  {
+    "name": "snl-charts",
+    "url": "https://snebel29.github.io/snl-charts",
+    "maintainers": [
+      {
+        "email": "nebel.sven@gmail.com",
+        "name": "Sven Nebel"
+      }
+    ]
+  },
+  {
+    "name": "crowdfox",
+    "url": "https://crowdfoxgmbh.github.io/cfcharts",
+    "maintainers": [
+      {
+        "email": "dev-ops@crowdfox.com",
+        "name": "Crowdfox Team"
+      },
+      {
+        "email": "alwin@atk-solutions.de",
+        "name": "Alwin Mark"
+      }
+    ]
+  },
+  {
+    "name": "architectminds",
+    "url": "https://architectminds.github.io/helm-charts/",
+    "maintainers": [
+      {
+        "email": "meena.kerolos+architectminds@gmail.com",
+        "name": "Meena Alfons"
+      },
+      {
+        "email": "me@meenaalfons.com",
+        "name": "Meena Alfons"
+      }
+    ]
+  },
+  {
+    "name": "uswitch",
+    "url": "https://uswitch.github.io/kiam-helm-charts/charts/",
+    "maintainers": [
+      {
+        "email": "cloud@uswitch.com",
+        "name": "uSwitch Infrastructure Team"
+      }
+    ]
+  },
+  {
+    "name": "external-secrets",
+    "url": "https://godaddy.github.io/kubernetes-external-secrets/",
+    "maintainers": [
+      {
+        "email": "jxpearce@godaddy.com",
+        "name": "jeffpearce"
+      },
+      {
+        "email": "klu6@godaddy.com",
+        "name": "keweilu"
+      }
+    ]
+  },
+  {
+    "name": "pfisterer-knox",
+    "url": "https://pfisterer.github.io/apache-knox-helm/",
+    "maintainers": [
+      {
+        "email": "github@farberg.de",
+        "name": "Dennis Pfisterer"
+      }
+    ]
+  },
+  {
+    "name": "aerospike",
+    "url": "https://aerospike.github.io/aerospike-kubernetes-enterprise",
+    "maintainers": [
+      {
+        "email": "support@aerospike.com",
+        "name": "Aerospike Team"
+      }
+    ]
+  },
+  {
+    "name": "mogaal",
+    "url": "https://mogaal.github.io/helm-charts/",
+    "maintainers": [
+      {
+        "email": "garridomota@gmail.com",
+        "name": "Alejandro Garrido"
+      }
+    ]
+  },
+  {
+    "name": "argo",
+    "url": "https://argoproj.github.io/argo-helm",
+    "maintainers": [
+      {
+        "email": "alex_collins@intuit.com",
+        "name": "Alex Collins"
+      }
+    ]
+  },
+  {
+    "name": "honeydipper",
+    "url": "https://raw.githubusercontent.com/honeydipper/honeydipper-charts/master/",
+    "maintainers": [
+      {
+        "email": "huangc.cd@gmail.com",
+        "name": "Charles Huang"
+      }
+    ]
+  },
+  {
+    "name": "adwerx",
+    "url": "https://adwerx.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "jbielick@adwerx.com",
+        "name": "Josh Bielick"
+      }
+    ]
+  },
+  {
+    "name": "hpe-storage",
+    "url": "https://hpe-storage.github.io/co-deployments/",
+    "maintainers": [
+      {
+        "email": "hpe-containers-dev@hpe.com",
+        "name": "HPE Containers Dev"
+      }
+    ]
+  },
+  {
+    "name": "squidex",
+    "url": "https://squidex.github.io/squidex-docker/",
+    "maintainers": [
+      {
+        "email": "sebasian@squidex.io",
+        "name": "Sebastian Stehle"
+      }
+    ]
+  },
+  {
+    "name": "liwenhe",
+    "url": "https://liwenhe1993.github.io/charts/",
+    "maintainers": [
+      {
+        "email": "411934049@qq.com",
+        "name": "Wenhe Li"
+      }
+    ]
+  }
+]

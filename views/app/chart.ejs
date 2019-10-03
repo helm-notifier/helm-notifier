@@ -1,0 +1,11 @@
+<ul>
+  <% locals.chartVersions.forEach((chart, index) => { %>
+  <li><%= chart.version %> -
+    <% if(index === 0){ %>
+    current
+    <% } else {%>
+    <a href="/repos/<%= repoName %>/<%= chartName %>/<%= chart.version %>...<%= chartVersions[index-1].version%>">Compare to next release</a>
+    <% } %>
+  </li>
+  <% }); %>
+</ul>

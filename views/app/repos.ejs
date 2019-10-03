@@ -1,0 +1,5 @@
+<ul>
+  <% locals.repos.forEach(function(repo) { %>
+      <li><%= repo.name %> - <%= repo.url %> <a href="/repos/<%= repo.name %>">repo details</a></li>
+  <% }); %>
+</ul>

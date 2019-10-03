@@ -1,0 +1,5 @@
+<ul>
+  <% Object.keys(locals.charts.entries).forEach(function(entryName, index) { %>
+      <li><%= entryName %> - <%= locals.charts.entries[entryName][0].version %>  <a href="/repos/<%= repo %>/<%= entryName %>">chart details</a></li>
+  <% }); %>
+</ul>
