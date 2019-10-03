@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test-debug": "mocha --inspect-brk=0.0.0.0:9229 --slow 0 --recursive -t 20000 --exit",
-    "test": "mocha --slow 0 --recursive -t 20000 --exit"
+    "test-debug": "mocha ./tests --inspect-brk=0.0.0.0:9229 --recursive --exit",
+    "test": "mocha ./tests --recursive --exit"
   },
   "author": "Pierre Humberdroz <pierre.humberdroz@greencycle.de>",
   "license": "MIT",

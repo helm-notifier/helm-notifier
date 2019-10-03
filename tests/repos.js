@@ -4,7 +4,7 @@ let request = require('supertest');
 const app = require('../server');
 const repos = require('./fixtures/repos').filter((repo) => repo.name !== 'zentainer');
 
-describe('PMA Offer', () => {
+describe('Routes', () => {
   before(async () => {
     app();
     request = request('http://localhost:5000');
