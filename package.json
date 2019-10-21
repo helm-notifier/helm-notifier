@@ -13,7 +13,7 @@
     "@koa/router": "^8.0.1",
     "diff2html": "^2.11.3",
     "js-yaml": "^3.13.1",
-    "knex": "^0.19.4",
+    "knex": "^0.19.5",
     "koa": "^2.8.1",
     "koa-bodyparser": "^4.2.1",
     "koa-ejs": "^4.2.0",
