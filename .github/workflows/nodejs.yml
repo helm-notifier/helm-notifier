@@ -35,4 +35,4 @@ jobs:
         npm test
       env:
         CI: true
-        DATABASE_URI: 'postgresql://postgres:postgres@postgres:5432/postgres'
+        DATABASE_URI: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/postgres
