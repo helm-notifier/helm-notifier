@@ -9,7 +9,11 @@ const { writeFile } = require('fs');
 const { promisify } = require('util');
 const { exec } = require('child_process');
 const fs = require('fs');
-const { getRepos } = require('../utils/helmRepos');
+const helmRepoModel = require('../models/helmRepos.model');
+const helmChartModel = require('../models/helmCharts.model');
+const helmChartVersionModel = require('../models/helmChartVersions.model');
+
+const router = new Router();
 
 const writeFilePromise = promisify(writeFile);
 
@@ -19,20 +23,6 @@ function downloadFile(fileUrl, outputPath) {
     .then((x) => writeFilePromise(outputPath, Buffer.from(x)));
 }
 
-const router = new Router();
-
-async function getCharts(repoName) {
-  const repos = await getRepos();
-  const repository = repos.find((repo) => repo.name === repoName);
-  const repoUrl = new URL(repository.url);
-  if (repoUrl.pathname.charAt(repoUrl.pathname.length - 1) !== '/') {
-    repoUrl.pathname = `${repoUrl.pathname}/index.yaml`;
-  } else {
-    repoUrl.pathname = `${repoUrl.pathname}index.yaml`;
-  }
-  return fetch(repoUrl.href)
-    .then((fetchRes) => fetchRes.text().then(yaml.safeLoad));
-}
 async function createTempFolder() {
   return new Promise(((resolve, reject) => {
     fs.mkdtemp(path.join(tempDirectory, 'foo-'), (err, folder) => {
@@ -41,6 +31,7 @@ async function createTempFolder() {
     });
   }));
 }
+
 async function diffFolders(folder1, folder2) {
   return new Promise((resolve, reject) => {
     exec(`git diff --no-index ${folder1} ${folder2}`,
@@ -52,6 +43,7 @@ async function diffFolders(folder1, folder2) {
       });
   });
 }
+
 async function downloadChart(chart, tmpDir, repoUrl) {
   let chartUrl;
   try {
@@ -68,6 +60,7 @@ async function downloadChart(chart, tmpDir, repoUrl) {
   fs.mkdirSync(`${tmpDir}/${chart.version}`);
   await tar.x({ file: `${tmpDir}/${fileName}`, cwd: `${tmpDir}/${chart.version}` });
 }
+
 async function diffChartTemplates(chart1, chart2, repoUrl) {
   const tmpDir = await createTempFolder();
   console.log(tmpDir);
@@ -80,15 +73,16 @@ async function diffChartTemplates(chart1, chart2, repoUrl) {
 }
 
 router.get('/repos', async (ctx, next) => {
-  const repos = await getRepos();
+  const repos = await helmRepoModel.listRepos();
   await ctx.render('app/repos', { repos });
   next();
 });
 
 
 router.get('/repos/:repoName', async (ctx, next) => {
-  const charts = await getCharts(ctx.params.repoName);
-  await ctx.render('app/charts', { charts, repo: ctx.params.repoName });
+  // const { id } = await helmRepoModel.getRepo(ctx.params.repoName);
+  const charts = await helmChartModel.listByRepoName(ctx.params.repoName);
+  await ctx.render('app/charts', { charts });
   next();
 });
 
