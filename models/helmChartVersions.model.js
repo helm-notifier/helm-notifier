@@ -1,6 +1,5 @@
 const uuid = require('uuid/v4');
 const _ = require('lodash');
-const compareVersions = require('compare-versions');
 const knex = require('../db');
 
 const tableName = 'helm_chartVersions';
@@ -26,7 +25,8 @@ async function create(chartData, chartId) {
     .returning('*')
     .catch((err) => {
       if (err.code === '23505') {
-        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '').replace(')', '');
+        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '')
+          .replace(')', '');
         throw new Error(`Duplicate entry for ${collumn}`);
       } else {
         throw err;
@@ -38,7 +38,8 @@ async function create(chartData, chartId) {
 async function getTwoChartVersion(chartId, version1, version2) {
   const charts = await knex(tableName)
     .where(function () {
-      this.where('version', version1).orWhere('version', version2);
+      this.where('version', version1)
+        .orWhere('version', version2);
     })
     .andWhere('helmChartId', chartId)
     .select();
@@ -52,6 +53,7 @@ async function findByChartId(chartId) {
     .select();
   return repos.reverse();
 }
+
 module.exports = {
   create,
   findByChartId,

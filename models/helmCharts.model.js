@@ -1,8 +1,10 @@
 const uuid = require('uuid/v4');
 const knex = require('../db');
 
+const tableName = 'helm_charts';
+
 async function getChart(repoName, chartName) {
-  const charts = await knex('helm_charts')
+  const charts = await knex(tableName)
     .select('helm_repos.url as repoUrl', 'helm_charts.*')
     .join('helm_repos', 'helm_charts.helmRepoId', 'helm_repos.id')
     .where('helm_repos.name', repoName)
@@ -12,14 +14,14 @@ async function getChart(repoName, chartName) {
 }
 
 async function listByRepoId(repoId) {
-  const charts = await knex('helm_charts')
+  const charts = await knex(tableName)
     .where({ helmRepoId: repoId })
     .select();
   return charts;
 }
 
 async function listByRepoName(repoName) {
-  const charts = await knex('helm_charts')
+  const charts = await knex(tableName)
     .select('helm_repos.name as repo_name', 'helm_charts.*')
     .join('helm_repos', 'helm_charts.helmRepoId', 'helm_repos.id')
     .where('helm_repos.name', repoName)
@@ -29,7 +31,7 @@ async function listByRepoName(repoName) {
 
 
 async function list() {
-  const repos = await knex('helm_charts')
+  const repos = await knex(tableName)
     .select();
   return repos;
 }
@@ -37,7 +39,7 @@ async function list() {
 async function create(chartName, repoId) {
   const id = uuid();
 
-  const dbObj = await knex('helm_charts')
+  const dbObj = await knex(tableName)
     .insert({
       id,
       helmRepoId: repoId,
@@ -46,7 +48,8 @@ async function create(chartName, repoId) {
     .returning('*')
     .catch((err) => {
       if (err.code === '23505') {
-        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '').replace(')', '');
+        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '')
+          .replace(')', '');
         throw new Error(`Duplicate entry for ${collumn}`);
       } else {
         throw err;
@@ -60,5 +63,4 @@ module.exports = {
   create,
   listByRepoId,
   listByRepoName,
-  list,
 };

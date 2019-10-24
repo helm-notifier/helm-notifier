@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test-debug": "mocha ./tests --inspect-brk=0.0.0.0:9229 --recursive --exit",
-    "test": "mocha ./tests --recursive --exit"
+    "test": "mocha ./tests --recursive --exit",
+    "lint": "eslint --fix ./"
   },
   "author": "Pierre Humberdroz <pierre.humberdroz@greencycle.de>",
   "license": "MIT",

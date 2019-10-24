@@ -55,10 +55,14 @@ async function downloadChart(chart, tmpDir, repoUrl) {
       chartUrl = new URL(`${repoUrl}${chart.urls[0]}`);
     }
   }
-  const fileName = chart.urls[0].split('/').pop();
+  const fileName = chart.urls[0].split('/')
+    .pop();
   await downloadFile(chartUrl.href, `${tmpDir}/${fileName}`);
   fs.mkdirSync(`${tmpDir}/${chart.version}`);
-  await tar.x({ file: `${tmpDir}/${fileName}`, cwd: `${tmpDir}/${chart.version}` });
+  await tar.x({
+    file: `${tmpDir}/${fileName}`,
+    cwd: `${tmpDir}/${chart.version}`,
+  });
 }
 
 async function diffChartTemplates(chart1, chart2, repoUrl) {
@@ -84,14 +88,20 @@ router.get('/repos', async (ctx, next) => {
 router.get('/repos/:repoName', async (ctx, next) => {
   // const { id } = await helmRepoModel.getRepo(ctx.params.repoName);
   const charts = await helmChartModel.listByRepoName(ctx.params.repoName);
-  await ctx.render('app/charts', { charts, repoName: ctx.params.repoName });
+  await ctx.render('app/charts', {
+    charts,
+    repoName: ctx.params.repoName,
+  });
   return next();
 });
 
 router.get('/repos/:repoName/:chartName', async (ctx, next) => {
   const chart = await helmChartModel.getChart(ctx.params.repoName, ctx.params.chartName);
   chart.versions = await helmChartVersionModel.findByChartId(chart.id);
-  await ctx.render('app/chart', { chart, repoName: ctx.params.repoName });
+  await ctx.render('app/chart', {
+    chart,
+    repoName: ctx.params.repoName,
+  });
   return next();
 });
 router.get('/repos/:repoName/:chartName/:versions', async (ctx, next) => {
@@ -104,7 +114,9 @@ router.get('/repos/:repoName/:chartName/:versions', async (ctx, next) => {
 
   const diffHtml = await diffChartTemplates(chart1, chart2, repoUrl);
   await ctx.render('app/chartCompare', {
-    repoName: ctx.params.repoName, chartName: ctx.params.chartName, diffHtml,
+    repoName: ctx.params.repoName,
+    chartName: ctx.params.chartName,
+    diffHtml,
   });
   next();
 });

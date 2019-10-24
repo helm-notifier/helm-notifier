@@ -2,8 +2,10 @@ const _ = require('lodash');
 const uuid = require('uuid/v4');
 const knex = require('../db');
 
+const tableName = 'helm_repos';
+
 async function listRepos() {
-  const repos = await knex('helm_repos')
+  const repos = await knex(tableName)
     .select();
   return repos;
 }
@@ -12,12 +14,13 @@ async function createRepo(repo) {
   const data = _.pick(repo, ['name', 'url']);
   data.id = uuid();
 
-  const dbObj = await knex('helm_repos')
+  const dbObj = await knex(tableName)
     .insert(data)
     .returning('*')
     .catch((err) => {
       if (err.code === '23505') {
-        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '').replace(')', '');
+        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '')
+          .replace(')', '');
         throw new Error(`Duplicate entry for ${collumn}`);
       } else {
         throw err;
@@ -27,7 +30,7 @@ async function createRepo(repo) {
 }
 
 async function getRepo(repoName) {
-  const dbObj = await knex('helm_repos')
+  const dbObj = await knex(tableName)
     .select()
     .where({ name: repoName })
     .first()

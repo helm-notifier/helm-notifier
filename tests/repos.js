@@ -1,8 +1,12 @@
 /* global describe it before */
+import { describe } from 'nyc/lib/commands/merge';
+import { before } from 'lodash/function';
+
 const { expect } = require('chai');
 let request = require('supertest');
 const app = require('../server');
-const repos = require('./fixtures/repos').filter((repo) => repo.name !== 'zentainer');
+const repos = require('./fixtures/repos')
+  .filter((repo) => repo.name !== 'zentainer');
 
 describe('Routes', () => {
   before(async () => {
@@ -21,6 +25,7 @@ describe('Routes', () => {
       await request
         .get(`/repos/${test.name}`)
         .expect(200);
-    }).timeout(5000);
+    })
+      .timeout(5000);
   });
 });
