@@ -11,6 +11,17 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,3 +35,4 @@ jobs:
         npm test
       env:
         CI: true
+        DATABASE_URI: 'postgresql://postgres:postgres@postgres:5432/postgres'
