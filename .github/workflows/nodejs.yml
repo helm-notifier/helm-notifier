@@ -13,26 +13,26 @@ jobs:
 
     services:
       postgres:
-        image: postgres:10.8
+        image: postgres:11
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_DB: pgdb
         ports:
-          - 5432:5432
+          - 5432/tcp
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm test
-      env:
-        CI: true
-        DATABASE_URI: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/postgres
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm test
+        env:
+          CI: true
+          DATABASE_URI: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/pgdb
