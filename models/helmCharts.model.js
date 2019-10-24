@@ -1,24 +1,30 @@
 const uuid = require('uuid/v4');
 const knex = require('../db');
 
-async function getChart(chartName, repoId) {
-  console.log('');
+async function getChart(repoName, chartName) {
+  const charts = await knex('helm_charts')
+    .select('helm_repos.url as repoUrl', 'helm_charts.*')
+    .join('helm_repos', 'helm_charts.helmRepoId', 'helm_repos.id')
+    .where('helm_repos.name', repoName)
+    .where('helm_charts.name', chartName)
+    .first();
+  return charts;
 }
 
 async function listByRepoId(repoId) {
-  const repos = await knex('helm_charts')
+  const charts = await knex('helm_charts')
     .where({ helmRepoId: repoId })
     .select();
-  return repos;
+  return charts;
 }
 
 async function listByRepoName(repoName) {
-  const repos = await knex('helm_charts')
+  const charts = await knex('helm_charts')
+    .select('helm_repos.name as repo_name', 'helm_charts.*')
     .join('helm_repos', 'helm_charts.helmRepoId', 'helm_repos.id')
     .where('helm_repos.name', repoName)
-    .options({ rowMode: 'array' });
-    // .select();
-  return repos;
+    .orderBy('helm_charts.name');
+  return charts;
 }
 
 

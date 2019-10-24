@@ -27,9 +27,7 @@ async function updateChart(chart, chartsData) {
       try {
         found = await helmChartVersionModel.create(chartData, chart.id);
       } catch (e) {
-        console.log(chart);
-        console.log(e);
-        // Todo: create notification if something false this is super
+        // Todo: create notification if something fails this is super
         //  important since it might be the first spot for
         //  something that has been changed.
       }

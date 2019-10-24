@@ -63,9 +63,11 @@ async function downloadChart(chart, tmpDir, repoUrl) {
 
 async function diffChartTemplates(chart1, chart2, repoUrl) {
   const tmpDir = await createTempFolder();
-  console.log(tmpDir);
-  await downloadChart(chart1, tmpDir, repoUrl);
-  await downloadChart(chart2, tmpDir, repoUrl);
+  await Promise.all([
+    downloadChart(chart1, tmpDir, repoUrl),
+    downloadChart(chart2, tmpDir, repoUrl),
+  ]);
+
   const diff = await diffFolders(`${tmpDir}/${chart1.version}`, `${tmpDir}/${chart2.version}`);
   const dirRegex = new RegExp(tmpDir, 'g');
   const diffPath = diff.replace(dirRegex, '');
@@ -82,27 +84,27 @@ router.get('/repos', async (ctx, next) => {
 router.get('/repos/:repoName', async (ctx, next) => {
   // const { id } = await helmRepoModel.getRepo(ctx.params.repoName);
   const charts = await helmChartModel.listByRepoName(ctx.params.repoName);
-  await ctx.render('app/charts', { charts });
-  next();
+  await ctx.render('app/charts', { charts, repoName: ctx.params.repoName });
+  return next();
 });
 
 router.get('/repos/:repoName/:chartName', async (ctx, next) => {
-  const charts = await getCharts(ctx.params.repoName);
-  const chartVersions = charts.entries[ctx.params.chartName];
-  await ctx.render('app/chart', { chartVersions, repoName: ctx.params.repoName, chartName: ctx.params.chartName });
-  next();
+  const chart = await helmChartModel.getChart(ctx.params.repoName, ctx.params.chartName);
+  chart.versions = await helmChartVersionModel.findByChartId(chart.id);
+  await ctx.render('app/chart', { chart, repoName: ctx.params.repoName });
+  return next();
 });
 router.get('/repos/:repoName/:chartName/:versions', async (ctx, next) => {
-  const charts = await getCharts(ctx.params.repoName);
-  const repos = await getRepos();
-  const repoUrl = repos.find((repo) => repo.name === ctx.params.repoName).url;
+  const chart = await helmChartModel.getChart(ctx.params.repoName, ctx.params.chartName);
   const [version1, version2] = ctx.params.versions.split('...');
-  const chartVersions = charts.entries[ctx.params.chartName];
-  const chart1 = chartVersions.find((chart) => chart.version === version1);
-  const chart2 = chartVersions.find((chart) => chart.version === version2);
+  const { repoUrl } = chart;
+  const charts = await helmChartVersionModel.getTwoChartVersion(chart.id, version1, version2);
+  const chart1 = charts.find((chartVersion) => chartVersion.version === version1);
+  const chart2 = charts.find((chartVersion) => chartVersion.version === version2);
+
   const diffHtml = await diffChartTemplates(chart1, chart2, repoUrl);
   await ctx.render('app/chartCompare', {
-    chartVersions, repoName: ctx.params.repoName, chartName: ctx.params.chartName, diffHtml,
+    repoName: ctx.params.repoName, chartName: ctx.params.chartName, diffHtml,
   });
   next();
 });

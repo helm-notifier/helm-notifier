@@ -1,5 +1,6 @@
 const uuid = require('uuid/v4');
 const _ = require('lodash');
+const compareVersions = require('compare-versions');
 const knex = require('../db');
 
 const tableName = 'helm_chartVersions';
@@ -34,13 +35,25 @@ async function create(chartData, chartId) {
   return dbObj[0];
 }
 
+async function getTwoChartVersion(chartId, version1, version2) {
+  const charts = await knex(tableName)
+    .where(function () {
+      this.where('version', version1).orWhere('version', version2);
+    })
+    .andWhere('helmChartId', chartId)
+    .select();
+  return charts;
+}
+
 async function findByChartId(chartId) {
   const repos = await knex(tableName)
     .where({ helmChartId: chartId })
+    .orderByRaw('string_to_array(version, \'.\')::int[];')
     .select();
-  return repos;
+  return repos.reverse();
 }
 module.exports = {
   create,
   findByChartId,
+  getTwoChartVersion,
 };
