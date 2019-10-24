@@ -1,6 +1,5 @@
 const Router = require('@koa/router');
 const fetch = require('node-fetch');
-const yaml = require('js-yaml');
 const diff2html = require('diff2html').Diff2Html;
 const tempDirectory = require('temp-dir');
 const tar = require('tar');

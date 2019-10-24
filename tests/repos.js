@@ -1,8 +1,4 @@
 /* global describe it before */
-import { describe } from 'nyc/lib/commands/merge';
-import { before } from 'lodash/function';
-
-const { expect } = require('chai');
 let request = require('supertest');
 const app = require('../server');
 const repos = require('./fixtures/repos')
