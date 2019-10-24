@@ -1,7 +1,4 @@
 /* global describe it before */
-import { describe } from 'nyc/lib/commands/merge';
-import { before } from 'lodash/function';
-
 const { expect } = require('chai');
 const repos = require('./fixtures/repos')
   .filter((repo) => repo.name !== 'zentainer');
