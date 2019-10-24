@@ -1,5 +1,6 @@
 const uuid = require('uuid/v4');
 const _ = require('lodash');
+const compareVersions = require('compare-versions');
 const knex = require('../db');
 
 const tableName = 'helm_chartVersions';
@@ -49,9 +50,9 @@ async function getTwoChartVersion(chartId, version1, version2) {
 async function findByChartId(chartId) {
   const repos = await knex(tableName)
     .where({ helmChartId: chartId })
-    .orderByRaw('string_to_array(version, \'.\')::int[];')
     .select();
-  return repos.reverse();
+  const sorted = repos.sort((a, b) => compareVersions(a.version, b.version));
+  return sorted.reverse();
 }
 
 module.exports = {
