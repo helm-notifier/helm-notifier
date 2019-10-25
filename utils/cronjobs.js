@@ -64,6 +64,4 @@ async function updateRepo() {
 module.exports = {
   updateRepo,
   updateRepos,
-  updateChart,
-  updateCharts,
 };

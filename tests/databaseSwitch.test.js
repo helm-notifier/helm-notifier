@@ -17,21 +17,11 @@ describe('CronJobs', () => {
   });
   describe('update Repos', () => {
     repos.forEach((test) => {
-      it(`check if data exists in database ${test.name}`, async () => {
+      it(`check if repo ${test.name} is in database`, async () => {
         const dbData = await helmRepoModel.getRepo(test.name);
-        expect(dbData.url)
-          .to
-          .eql(test.url);
-        expect(dbData.name)
-          .to
-          .eql(test.name);
-      })
-        .timeout(5000);
+        expect(dbData.url).to.eql(test.url);
+        expect(dbData.name).to.eql(test.name);
+      }).timeout(5000);
     });
   });
-  describe('update Charts', () => {
-    it('update Charts', async () => {
-    });
-  });
-})
-  .timeout(10000000);
+}).timeout(10000000);

@@ -6,7 +6,7 @@ const repos = require('./fixtures/repos')
 
 describe('Routes', () => {
   before(async () => {
-    app();
+    await app();
     request = request('http://localhost:5000');
   });
   describe('GET /repos', () => {

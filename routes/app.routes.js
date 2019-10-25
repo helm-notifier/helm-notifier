@@ -117,6 +117,6 @@ router.get('/repos/:repoName/:chartName/:versions', async (ctx, next) => {
     chartName: ctx.params.chartName,
     diffHtml,
   });
-  next();
+  return next();
 });
 module.exports = router;
