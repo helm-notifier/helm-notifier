@@ -51,7 +51,42 @@ async function findByChartId(chartId) {
   const repos = await knex(tableName)
     .where({ helmChartId: chartId })
     .select();
-  const sorted = repos.sort((a, b) => compareVersions(a.version, b.version));
+  const sorted = repos.sort((a, b) => {
+    let sortVal = -1;
+    try {
+      sortVal = compareVersions(a.version, b.version);
+    } catch (e) {
+      if (e.message.includes('Invalid argument not valid semver')) {
+        const errorSemVer = e.message.split('(\'')[1].split('\' ')[0];
+        if (errorSemVer.includes('_')) {
+          sortVal = compareVersions(a.version.replace('_', '-'), b.version.replace('_', '-'));
+        } else if (errorSemVer === '1.2-canary') {
+          let versionA = a.version;
+          let versionB = b.version;
+          if (versionA === '1.2-canary') {
+            versionA = '1.2.0-canary';
+          }
+          if (versionB === '1.2-canary') {
+            versionB = '1.2.0-canary';
+          }
+          sortVal = compareVersions(versionA, versionB);
+        } else if (errorSemVer === '0.1.5a') {
+          let versionA = a.version;
+          let versionB = b.version;
+          if (versionA === '0.1.5a') {
+            versionA = '0.1.5-a';
+          }
+          if (versionB === '0.1.5a') {
+            versionB = '0.1.5-a';
+          }
+          sortVal = compareVersions(versionA, versionB);
+        } else {
+          throw e;
+        }
+      }
+    }
+    return sortVal;
+  });
   return sorted.reverse();
 }
 

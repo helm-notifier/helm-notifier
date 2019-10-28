@@ -56,6 +56,7 @@ async function getAuthData(email) {
   }
   return dbObj;
 }
+
 module.exports = {
   get,
   create,

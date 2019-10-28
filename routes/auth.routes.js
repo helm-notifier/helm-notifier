@@ -14,7 +14,7 @@ router.post('/auth/login', async (ctx, next) => {
       await ctx.redirect('/auth/login');
       return next();
     }
-    await ctx.redirect('/app');
+    await ctx.redirect('/repos');
     await ctx.login(user);
     return next();
   })(ctx);

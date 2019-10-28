@@ -9,7 +9,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((mail, done) => {
   userModel.get(mail)
     .then((user) => { done(null, user); })
-    .catch((err) => { done(err, null); });
+    .catch((err) => {
+      done(err, null);
+    });
 });
 
 localStrategy();

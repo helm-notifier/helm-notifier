@@ -1,12 +1,14 @@
 const Promise = require('bluebird');
 const _ = require('lodash');
-const helmRepos = require('./helmRepos');
+const helmRepoUtil = require('./helmRepos');
 const helmRepoModel = require('../models/helmRepos.model');
 const helmChartModel = require('../models/helmCharts.model');
 const helmChartVersionModel = require('../models/helmChartVersions.model');
+const apm = require('../elasticApm');
 
 async function updateRepos() {
-  const repos = await helmRepos.getRepos();
+  const trans = apm.startTransaction('update Repos', 'cronjob');
+  const repos = await helmRepoUtil.getRepos();
   const dbRepos = await helmRepoModel.listRepos();
   await Promise.all(repos.map(async (repo) => {
     const found = dbRepos.find((dbRepo) => repo.name === dbRepo.name);
@@ -16,6 +18,8 @@ async function updateRepos() {
     }
     return Promise.resolve();
   }));
+  trans.result = 'success';
+  trans.end();
 }
 
 async function updateChart(chart, chartsData) {
@@ -38,6 +42,7 @@ async function updateChart(chart, chartsData) {
 
 async function updateCharts(repoData, repoId) {
   const dbCharts = await helmChartModel.listByRepoId(repoId);
+  // Todo: bulk get version data instead of one by one in the updateChart function
   await Promise.all(_.map(repoData.entries, async (chart, chartName) => {
     let found = dbCharts.find((dbChart) => dbChart.name === chartName);
     if (found === undefined) {
@@ -52,10 +57,13 @@ async function updateCharts(repoData, repoId) {
 }
 
 async function updateRepo() {
+  // Todo: timeout logic
   const repos = await helmRepoModel.listRepos();
   await Promise.map(repos, async (repo) => {
-    const repoData = await helmRepos.getCharts(repo.url);
+    const trans = apm.startTransaction('update repo', 'cronjob');
+    const repoData = await helmRepoUtil.getCharts(repo.url);
     await updateCharts(repoData, repo.id);
+    trans.end('success');
     return Promise.resolve();
   }, { concurrency: 3 });
   return Promise.resolve();

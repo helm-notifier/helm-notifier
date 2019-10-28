@@ -4,8 +4,6 @@ exports.up = function (knex) {
     t.increments('id');
     t.string('email');
     t.unique('email');
-    t.string('firstName');
-    t.string('lastName');
     t.string('password');
   })]);
 };

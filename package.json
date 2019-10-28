@@ -16,6 +16,7 @@
     "bluebird": "^3.7.1",
     "compare-versions": "^3.5.1",
     "diff2html": "^2.11.3",
+    "elastic-apm-node": "^3.1.0",
     "js-yaml": "^3.13.1",
     "knex": "^0.19.5",
     "koa": "^2.8.1",

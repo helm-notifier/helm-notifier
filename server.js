@@ -1,3 +1,4 @@
+const apm = require('./elasticApm');
 const Koa = require('koa');
 const render = require('koa-ejs');
 const path = require('path');
@@ -8,10 +9,11 @@ const passport = require('koa-passport');
 const knex = require('./db');
 const appRouter = require('./routes/app.routes');
 const authRouter = require('./routes/auth.routes');
+const subscriptionRouter = require('./routes/subscriptions.routes');
+const cronjobs = require('./utils/cronjobs');
 require('./utils/auth/passport');
 
 const port = process.env.HTTP_PORT || 5000;
-
 const app = new Koa();
 
 // Todo: generate Secret Keys
@@ -19,6 +21,7 @@ app.keys = ['secret'];
 app.use(session({}, app));
 app.use(koaLogger());
 
+// Todo: Google, twitter and Github Auth Providers implementation: https://github.com/rkusa/koa-passport-example
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -32,6 +35,7 @@ render(app, {
 
 app.use(appRouter.routes());
 app.use(authRouter.routes());
+app.use(subscriptionRouter.routes());
 
 function startServer() {
   return knex.migrate.latest().then(() => {
@@ -41,7 +45,13 @@ function startServer() {
 }
 
 if (!module.parent) {
-  startServer();
+  startServer()
+    .then(() => cronjobs.updateRepos())
+    .then(() => {
+      console.log('cronjob update Repos done');
+      return cronjobs.updateRepo();
+    })
+    .then(() => console.log('cronjob update repo done'));
 }
 
 
