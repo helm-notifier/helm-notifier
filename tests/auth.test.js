@@ -20,8 +20,8 @@ describe('Subscriber flow', () => {
   let chart;
   before(async function () {
     this.timeout(300000);
-    await updateRepoData();
     await app.startServer();
+    await updateRepoData();
     request = request.agent('http://localhost:5000');
   });
   after(async () => {
