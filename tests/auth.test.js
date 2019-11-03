@@ -21,11 +21,12 @@ describe('Subscriber flow', () => {
   before(async function () {
     this.timeout(300000);
     await updateRepoData();
-    await app();
+    await app.startServer();
     request = request.agent('http://localhost:5000');
   });
   after(async () => {
     await knex('users').where({ email: 'test@test.de' }).del();
+    app.stopServer();
   });
   describe('GET /auth/', () => {
     it('/register', async () => {

@@ -7,9 +7,12 @@ const reposTest = require('./fixtures/repos')
 
 describe('Routes', () => {
   before(async () => {
-    await app();
+    await app.startServer();
     request = request('http://localhost:5000');
   });
+  after(async () => {
+    app.stopServer();
+  })
   describe('GET /repos', () => {
     it('returns 200', async () => {
       await request

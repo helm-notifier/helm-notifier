@@ -1,4 +1,3 @@
-const apm = require('./elasticApm');
 const Koa = require('koa');
 const render = require('koa-ejs');
 const path = require('path');
@@ -6,6 +5,7 @@ const koaLogger = require('koa-pino-logger');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
 const passport = require('koa-passport');
+const apm = require('./elasticApm');
 const knex = require('./db');
 const appRouter = require('./routes/app.routes');
 const authRouter = require('./routes/auth.routes');
@@ -36,12 +36,16 @@ render(app, {
 app.use(appRouter.routes());
 app.use(authRouter.routes());
 app.use(subscriptionRouter.routes());
-
+let server;
 function startServer() {
   return knex.migrate.latest().then(() => {
-    app.listen(port);
+    server = app.listen(port);
     console.log(`SERVER IS RUNNING on http://localhost:${port}`);
   });
+}
+
+function stopServer() {
+  server.close();
 }
 
 if (!module.parent) {
@@ -55,4 +59,4 @@ if (!module.parent) {
 }
 
 
-module.exports = startServer;
+module.exports = { startServer, stopServer };
