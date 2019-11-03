@@ -13,7 +13,7 @@ jobs:
     - name: Publish Docker
       uses: elgohr/Publish-Docker-Github-Action@2.4
       with:
-        name: /helm-notifier/helm-notifier/app
+        name: helm-notifier/helm-notifier/app
         username: phumberdroz
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
