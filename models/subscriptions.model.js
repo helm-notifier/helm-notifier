@@ -5,8 +5,8 @@ const tableName = 'subscriptions';
 
 async function create(ctx) {
   const data = _.pick(ctx.params, ['source_type', 'source_id']);
-  data.user_id = ctx.state.user.id
-  console.log(data);
+  data.user_id = ctx.state.user.id;
+
   const dbObj = await knex(tableName)
     .insert(data)
     .returning('*')
@@ -21,6 +21,13 @@ async function create(ctx) {
   return dbObj[0];
 }
 
+async function getSubscribers(sourceType, sourceId) {
+  return knex(tableName)
+    .select('user_id')
+    .where({ source_type: sourceType, source_id: sourceId });
+}
+
 module.exports = {
   create,
+  getSubscribers,
 };

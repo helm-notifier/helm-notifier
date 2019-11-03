@@ -8,7 +8,7 @@
     "test": "mocha ./tests --recursive --exit",
     "lint": "eslint --fix ./"
   },
-  "author": "Pierre Humberdroz <pierre.humberdroz@greencycle.de>",
+  "author": "Pierre Humberdroz <p.humberdroz@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@koa/router": "^8.0.1",

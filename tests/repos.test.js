@@ -1,7 +1,8 @@
 /* global describe it before */
+
 let request = require('supertest');
 const app = require('../server');
-const repos = require('./fixtures/repos')
+const reposTest = require('./fixtures/repos')
   .filter((repo) => repo.name !== 'zentainer');
 
 describe('Routes', () => {
@@ -16,7 +17,7 @@ describe('Routes', () => {
         .expect(200);
     });
   });
-  repos.forEach((test) => {
+  reposTest.forEach((test) => {
     it(`GET /repos/${test.name}`, async () => {
       await request
         .get(`/repos/${test.name}`)

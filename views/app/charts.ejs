@@ -1,5 +1,15 @@
-<ul>
+<div class="row">
     <% locals.charts.forEach(function(chart) { %>
-        <li><%= chart.name %> - VERSION <a href="/repos/<%= repoName %>/<%= chart.name %>">chart details</a> <a href="/subscriptions/chart/<%= chart.id %>">subscribe</a></li>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><%= chart.repo.name %>/<%= chart.name %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Chart Version: <%= chart.version %></h6>
+                    <a href="/repos/<%= chart.repo.name %>/<%= chart.name %>" class="card-link">Chart Versions</a>
+                    <a href="/subscriptions/chartVersionUpdate/<%= chart.id %>" class="card-link">Subscribe</a>
+                </div>
+            </div>
+        </div>
     <% }); %>
-</ul>
+
+</div>

@@ -58,9 +58,36 @@ async function create(chartName, repoId) {
   return dbObj[0];
 }
 
+async function search(ctx) {
+  const searchTerm = ctx.query.query;
+  const dbObjs = await knex(tableName)
+    .select()
+    .where('name', 'like', `%${searchTerm}%`);
+  return dbObjs;
+}
+
+async function updateChartData(chart, keywords, appVersion, chartVersion) {
+  return knex(tableName)
+    .where('id', chart.id)
+    .update({
+      keywords,
+      appVersion,
+      version: chartVersion,
+    });
+}
+
+async function getChartById(ctx) {
+  return knex(tableName)
+    .select()
+    .where({ id: ctx.params.chartId });
+}
+
 module.exports = {
+  getChartById,
   getChart,
   create,
+  search,
   listByRepoId,
   listByRepoName,
+  updateChartData,
 };

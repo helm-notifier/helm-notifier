@@ -86,10 +86,15 @@ router.get('/repos', async (ctx, next) => {
 
 router.get('/repos/:repoName', async (ctx, next) => {
   // const { id } = await helmRepoModel.getRepo(ctx.params.repoName);
-  const charts = await helmChartModel.listByRepoName(ctx.params.repoName);
+  let charts = await helmChartModel.listByRepoName(ctx.params.repoName);
+  charts = charts.map((chart) => {
+    const updatedChart = chart;
+    updatedChart.repo = {};
+    updatedChart.repo.name = ctx.params.repoName;
+    return updatedChart;
+  });
   await ctx.render('app/charts', {
     charts,
-    repoName: ctx.params.repoName,
   });
   return next();
 });
@@ -117,6 +122,18 @@ router.get('/repos/:repoName/:chartName/:versions', async (ctx, next) => {
     chartName: ctx.params.chartName,
     diffHtml,
   });
+  return next();
+});
+
+router.get('/search', async (ctx, next) => {
+  const helmRepos = await helmRepoModel.listRepos();
+  let charts = await helmChartModel.search(ctx);
+  charts = charts.map((chart) => {
+    const updatedChart = chart;
+    updatedChart.repo = helmRepos.find((repo) => repo.id === chart.helmRepoId);
+    return chart;
+  });
+  await ctx.render('app/charts', { charts });
   return next();
 });
 module.exports = router;

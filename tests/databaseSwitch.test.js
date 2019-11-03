@@ -10,7 +10,6 @@ describe('CronJobs', () => {
   // eslint-disable-next-line func-names
   before(async function () {
     this.timeout(300000);
-    await knex.raw('DROP SCHEMA public CASCADE; CREATE SCHEMA public;');
     await knex.migrate.latest();
     await cronjobs.updateRepos();
     await cronjobs.updateRepo();

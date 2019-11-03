@@ -8,6 +8,7 @@ router.use(async (ctx, next) => {
   }
   return next();
 });
+// validate that sourceType is of Type chart
 router.get('/subscriptions/:source_type/:source_id', async (ctx, next) => {
   try {
     await subscriptionsModel.create(ctx);

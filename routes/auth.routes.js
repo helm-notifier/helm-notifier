@@ -1,6 +1,7 @@
 const Router = require('@koa/router');
 const passport = require('koa-passport');
 const userModel = require('../models/users.model');
+
 const router = new Router();
 
 router.get('/auth/login', async (ctx, next) => {
@@ -38,8 +39,15 @@ router.get('/auth/register', async (ctx, next) => {
  * [ ] sanitze stuff
  */
 router.post('/auth/register', async (ctx, next) => {
-  const user = await userModel.create(ctx);
-  await ctx.response.redirect('/auth/login');
+  try {
+    await userModel.create(ctx);
+    ctx.status = 201;
+    await ctx.response.redirect('/auth/login');
+  } catch (e) {
+    if (e.message.includes('Duplicate entry for email')) {
+      await ctx.response.redirect('/auth/register');
+    }
+  }
   return next();
 });
 

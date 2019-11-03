@@ -4,6 +4,10 @@ const helmRepoUtil = require('./helmRepos');
 const helmRepoModel = require('../models/helmRepos.model');
 const helmChartModel = require('../models/helmCharts.model');
 const helmChartVersionModel = require('../models/helmChartVersions.model');
+const notificationModel = require('../models/notifactions.model');
+const subscriberModel = require('../models/subscriptions.model');
+const semVerSortFunction = require('../utils/sortSemVer');
+
 const apm = require('../elasticApm');
 
 async function updateRepos() {
@@ -21,16 +25,33 @@ async function updateRepos() {
   trans.result = 'success';
   trans.end();
 }
-
-async function updateChart(chart, chartsData) {
+async function updateChartData(chart, chartData) {
+  // Keywords, latest version -> app version
+  const uniqKeywords = _.chain(chartData)
+    .map((data) => data.keywords)
+    .flatten()
+    .uniq()
+    .filter()
+    .value();
+  const latestChart = chartData[0];
+  return helmChartModel
+    .updateChartData(chart, uniqKeywords, latestChart.appVersion, latestChart.version);
+}
+async function updateChartVersions(chart, chartsData) {
+  let changes = false;
   const dbChartVersions = await helmChartVersionModel.findByChartId(chart.id);
-  await Promise.all(chartsData.map(async (chartData) => {
+  const dbChartVersionsUpdated = await Promise.all(chartsData.map(async (chartData) => {
     let found = dbChartVersions
       .find((dbChartVersion) => dbChartVersion.version === chartData.version);
     if (found === undefined) {
       try {
         found = await helmChartVersionModel.create(chartData, chart.id);
+        changes = true;
+        const userIdsObj = await subscriberModel.getSubscribers('chartVersionUpdate', chart.id);
+        const userIdsArr = userIdsObj.map((userIdObj) => userIdObj.user_id);
+        await notificationModel.create(userIdsArr, chart.id, 'chartVersionUpdate', found.id, 'chartVersion');
       } catch (e) {
+        throw e;
         // Todo: create notification if something fails this is super
         //  important since it might be the first spot for
         //  something that has been changed.
@@ -38,18 +59,23 @@ async function updateChart(chart, chartsData) {
     }
     return found;
   }));
+  if (changes === true) {
+    await updateChartData(chart, dbChartVersionsUpdated.sort(semVerSortFunction).reverse());
+  }
+  return dbChartVersionsUpdated.sort(semVerSortFunction).reverse();
 }
 
-async function updateCharts(repoData, repoId) {
-  const dbCharts = await helmChartModel.listByRepoId(repoId);
+async function updateCharts(repo) {
+  const repoData = await helmRepoUtil.getCharts(repo.url);
+  const dbCharts = await helmChartModel.listByRepoId(repo.id);
   // Todo: bulk get version data instead of one by one in the updateChart function
   await Promise.all(_.map(repoData.entries, async (chart, chartName) => {
     let found = dbCharts.find((dbChart) => dbChart.name === chartName);
     if (found === undefined) {
-      found = await helmChartModel.create(chartName, repoId);
+      found = await helmChartModel.create(chartName, repo.id);
       // Todo: create Notifcation once a new chart is added to a repo
     }
-    await updateChart(found, chart);
+    await updateChartVersions(found, chart);
     return Promise.resolve();
   }));
 
@@ -61,8 +87,7 @@ async function updateRepo() {
   const repos = await helmRepoModel.listRepos();
   await Promise.map(repos, async (repo) => {
     const trans = apm.startTransaction('update repo', 'cronjob');
-    const repoData = await helmRepoUtil.getCharts(repo.url);
-    await updateCharts(repoData, repo.id);
+    await updateCharts(repo);
     trans.end('success');
     return Promise.resolve();
   }, { concurrency: 3 });
@@ -72,4 +97,5 @@ async function updateRepo() {
 module.exports = {
   updateRepo,
   updateRepos,
+  updateCharts,
 };

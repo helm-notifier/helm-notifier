@@ -5,19 +5,23 @@ exports.up = (knex) => knex.schema.createTable('notifications', (t) => {
   t.integer('user_id')
     .notNullable()
     .references('users.id')
-    .onDelete('RESTRICT');
+    .onDelete('CASCADE');
   t.uuid('source_id')
     .notNullable();
   t.text('source_type')
     .notNullable();
   t.timestamp('read_at');
+  t.text('target_type')
+    .notNullable();
+  t.uuid('target_id')
+    .notNullable();
 }).createTable('subscriptions', (t) => {
   t.timestamps(true, true);
   t.increments('id');
   t.integer('user_id')
     .notNullable()
     .references('users.id')
-    .onDelete('RESTRICT');
+    .onDelete('CASCADE');
   t.uuid('source_id')
     .notNullable();
   t.text('source_type')

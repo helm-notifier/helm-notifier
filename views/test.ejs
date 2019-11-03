@@ -6,17 +6,22 @@
     <meta name="description" content="">
     <meta name="author" content="Greencycle Stiftung">
     <meta name="generator" content="">
-    <title>PreZero</title>
+    <title>Helm Notifier</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="/">
-        <img src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Bootstrap
+        Helm Notifier
     </a>
-    <a href="/auth/register" class="btn btn-outline-success" tabindex="-1" role="button" aria-disabled="true">Jetzt registrieren</a>
+    <form class="form-inline" action="/search">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <% if(locals.user === undefined) { %>
+    <a href="/auth/register" class="btn btn-outline-success" tabindex="-1" role="button" aria-disabled="true">Register now</a>
+    <%}%>
 </nav>
 <div class="container">
     <%- body %>

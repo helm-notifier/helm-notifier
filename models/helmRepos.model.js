@@ -44,8 +44,15 @@ async function getRepo(repoName) {
   return dbObj;
 }
 
+async function getRepoById(ctx) {
+  return knex(tableName)
+    .select()
+    .where({ id: ctx.params.repoId });
+}
+
 module.exports = {
   listRepos,
   createRepo,
   getRepo,
+  getRepoById,
 };
