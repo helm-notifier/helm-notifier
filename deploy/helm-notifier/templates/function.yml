@@ -6,6 +6,8 @@ metadata:
 spec:
   handler: node server.js
   image: docker.pkg.github.com/helm-notifier/helm-notifier/app:{{ .Values.image.tag }}
+  imagePullSecrets:
+    - name: regcred
   name: helm-repositories
   replicas: 1
   secrets:
