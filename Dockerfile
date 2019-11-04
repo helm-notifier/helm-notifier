@@ -31,7 +31,7 @@ ENV cgi_headers="true"
 ENV fprocess="node index.js"
 ENV mode="http"
 ENV upstream_url="http://127.0.0.1:3000"
-
+ENV HTTP_PORT="3000"
 ENV exec_timeout="10s"
 ENV write_timeout="15s"
 ENV read_timeout="15s"
