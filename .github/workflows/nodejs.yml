@@ -45,12 +45,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: My first step
-        uses: docker://phumberdroz/terraform-aiven-kubectl-helm-docker:latest
+      - name: Helm test
         run: |
-           echo ${{ secrets.kubeconfig }} | base64 -d > ~/.kube/config
-           helm init --client-only
-           helm tiller start-ci
-           export HELM_HOST=127.0.0.1:44134
-           helm list
-           helm tiller stop
+          HELMFILE_VERSION=$(curl --silent "https://api.github.com/repos/roboll/helmfile/releases/latest" | \
+            grep '"tag_name":' | \
+            sed -E 's/.*"([^"]+)".*/\1/') && \
+            curl -sOL "https://github.com/roboll/helmfile/releases/download/"$HELMFILE_VERSION'/helmfile_linux_amd64' && \
+            chmod +x ./helmfile_linux_amd64 && \
+            mv helmfile_linux_amd64 /usr/local/bin/helmfile
+          echo ${{ secrets.kubeconfig }} | base64 -d > ~/.kube/config
+          helm init --client-only
+          helm tiller start-ci
+          export HELM_HOST=127.0.0.1:44134
+          helm list
+          helm tiller stop
