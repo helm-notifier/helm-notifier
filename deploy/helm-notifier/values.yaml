@@ -1,4 +1,4 @@
-replicaCount: 4
+replicaCount: 1
 meta:
   name: helm-notifier
   shortName: mono
