@@ -1,16 +1,11 @@
-name: Node CI
-
-on: [push]
-
+name: Test, Build and Deploy
+on:
+  push:
+    branches:
+      - master
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     services:
       postgres:
         image: postgres:11
@@ -20,7 +15,6 @@ jobs:
           POSTGRES_DB: pgdb
         ports:
           - 5432/tcp
-        # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v1
@@ -36,3 +30,15 @@ jobs:
         env:
           CI: true
           DATABASE_URI: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/pgdb
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish Docker
+        uses: elgohr/Publish-Docker-Github-Action@2.7
+        with:
+          name: helm-notifier/helm-notifier/app
+          username: "phumberdroz"
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          snapshot: true

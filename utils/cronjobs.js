@@ -51,7 +51,11 @@ async function updateChartVersions(chart, chartsData) {
         const userIdsArr = userIdsObj.map((userIdObj) => userIdObj.user_id);
         await notificationModel.create(userIdsArr, chart.id, 'chartVersionUpdate', found.id, 'chartVersion');
       } catch (e) {
-        throw e;
+        if (e.message.includes('Duplicate entry for "helmChartId", version')) {
+          console.log(e);
+        } else {
+          throw e;
+        }
         // Todo: create notification if something fails this is super
         //  important since it might be the first spot for
         //  something that has been changed.
