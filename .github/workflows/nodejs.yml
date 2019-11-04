@@ -38,10 +38,9 @@ jobs:
         id: dockerpub
         uses: elgohr/Publish-Docker-Github-Action@2.7
         with:
-          name: helm-notifier/helm-notifier/app
+          name: phumberdroz/helm-notifier
           username: "phumberdroz"
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
+          password: ${{ secrets.DOCKER_PASSWORD }}
           snapshot: true
       - name: Helm test
         env:
