@@ -64,7 +64,7 @@ async function updateChartVersions(chart, chartsData) {
     return found;
   }));
   if (changes === true) {
-    await updateChartData(chart, dbChartVersionsUpdated.sort(semVerSortFunction).reverse());
+    await updateChartData(chart, dbChartVersionsUpdated.filter((ele) => ele !== undefined).sort(semVerSortFunction).reverse());
   }
   return dbChartVersionsUpdated.sort(semVerSortFunction).reverse();
 }
