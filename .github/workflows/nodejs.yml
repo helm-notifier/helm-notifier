@@ -35,6 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Publish Docker
+        id: dockerpub
         uses: elgohr/Publish-Docker-Github-Action@2.7
         with:
           name: helm-notifier/helm-notifier/app
@@ -42,12 +43,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           snapshot: true
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Helm test
         env:
           kubeconfig: ${{ secrets.kubeconfig }}
+          docker_tag: ${{ steps.dockerpub.outputs.snapshot-tag }}
         run: |
           mkdir $HOME/.kube
           mkdir $HOME/.helm
@@ -55,8 +54,10 @@ jobs:
           helm plugin install https://github.com/databus23/helm-diff
           helm plugin install https://github.com/rimusz/helm-tiller
           echo $kubeconfig | base64 -d > ~/.kube/config
+          echo $docker_tag
           helm init --client-only
           helm tiller start-ci
           export HELM_HOST=127.0.0.1:44134
           helm list
           helm tiller stop
+
