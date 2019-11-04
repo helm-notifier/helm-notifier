@@ -3,4 +3,4 @@ meta:
   name: helm-notifier
   shortName: mono
 service:
-  httpPort: 3000
+  httpPort: 5000
