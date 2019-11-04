@@ -1,7 +1,6 @@
 const pg = require('pg');
 
 const url = process.env['database-uri'] || 'postgresql://pguser:pgpass@localhost:5432/pgdb';
-console.log(process.env);
 if (url.includes('ondigitalocean.com')) {
   pg.defaults.ssl = true;
 }

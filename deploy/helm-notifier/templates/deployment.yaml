@@ -23,11 +23,11 @@ spec:
         - name: {{ .Values.meta.name }}
           image: phumberdroz/helm-notifier:{{ .Values.image.tag }}
           imagePullPolicy: Always
-          ports:
-            - containerPort: {{ .Values.service.httpPort }}
           env:
             - name: database-uri
               valueFrom:
                 secretKeyRef:
                   name: database-uri
                   key: database-uri
+          ports:
+            - containerPort: {{ .Values.service.httpPort }}
