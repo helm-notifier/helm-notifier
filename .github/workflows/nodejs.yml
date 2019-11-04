@@ -42,3 +42,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           snapshot: true
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: My first step
+        uses: docker://phumberdroz/terraform-aiven-kubectl-helm-docker:latest
+        run: |
+           echo ${{ secrets.kubeconfig }} | base64 -d > ~/.kube/config
+           helm init --client-only
+           helm tiller start-ci
+           export HELM_HOST=127.0.0.1:44134
+           helm list
+           helm tiller stop
