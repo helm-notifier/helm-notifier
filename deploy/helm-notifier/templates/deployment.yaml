@@ -23,13 +23,6 @@ spec:
         - name: {{ .Values.meta.name }}
           image: phumberdroz/helm-notifier:{{ .Values.image.tag }}
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: 0.4
-              memory: 512Mi
-            requests:
-              cpu: 0.4
-              memory: 256Mi
           ports:
             - containerPort: {{ .Values.service.httpPort }}
           env:
