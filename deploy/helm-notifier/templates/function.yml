@@ -6,9 +6,7 @@ metadata:
 spec:
   handler: node server.js
   image: phumberdroz/helm-notifier:{{ .Values.image.tag }}
-  imagePullSecrets:
-    - name: regcred
-  name: helm-repositories
+  name: helm-notifier
   replicas: 1
   secrets:
   - database-uri
