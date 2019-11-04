@@ -46,13 +46,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Helm test
+        env:
+          kubeconfig: ${{ secrets.kubeconfig }}
         run: |
           mkdir $HOME/.kube
           mkdir $HOME/.helm
           mkdir $HOME/.helm/plugins
           helm plugin install https://github.com/databus23/helm-diff
           helm plugin install https://github.com/rimusz/helm-tiller
-          echo ${{ secrets.kubeconfig }} | base64 -d > ~/.kube/config
+          echo $kubeconfig | base64 -d > ~/.kube/config
           helm init --client-only
           helm tiller start-ci
           export HELM_HOST=127.0.0.1:44134
