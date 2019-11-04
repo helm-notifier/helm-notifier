@@ -47,6 +47,9 @@ jobs:
     steps:
       - name: Helm test
         run: |
+          mkdir $HOME/.kube
+          mkdir $HOME/.helm
+          mkdir $HOME/.helm/plugins
           helm plugin install https://github.com/databus23/helm-diff
           helm plugin install https://github.com/rimusz/helm-tiller
           echo ${{ secrets.kubeconfig }} | base64 -d > ~/.kube/config
