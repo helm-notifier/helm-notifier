@@ -17,3 +17,4 @@ jobs:
         username: "phumberdroz"
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
+        snapshot: true
