@@ -29,7 +29,7 @@ jobs:
           npm test
         env:
           CI: true
-          DATABASE_URI: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/pgdb
+          database-uri: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/pgdb
   build:
     runs-on: ubuntu-latest
     steps:

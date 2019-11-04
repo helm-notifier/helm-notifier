@@ -2,7 +2,7 @@ const pg = require('pg');
 const configUtil = require('./utils/config');
 
 const url = configUtil('database-uri') || 'postgresql://pguser:pgpass@localhost:5432/pgdb';
-if (configUtil('database-uri') !== undefined) {
+if (url.includes('ondigitalocean.com')) {
   pg.defaults.ssl = true;
 }
 console.log(`Connecting to ${url.replace(/:[^:]+@/, ':***@')}`);
