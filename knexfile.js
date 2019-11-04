@@ -1,4 +1,6 @@
-const url = process.env.DATABASE_URI || 'postgresql://pguser:pgpass@localhost:5432/pgdb';
+const configUtil = require('./utils/config');
+
+const url = configUtil('DATABASE_URI') || 'postgresql://pguser:pgpass@localhost:5432/pgdb';
 console.log(`Connecting to ${url.replace(/:[^:]+@/, ':***@')}`);
 
 module.exports = {
