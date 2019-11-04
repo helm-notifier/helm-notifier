@@ -56,6 +56,6 @@ jobs:
           helm init --client-only
           helm tiller start-ci
           export HELM_HOST=127.0.0.1:44134
-          helm upgrade -i --namespace openfaas-fn helm-notifier-mono deploy/helm-notifier/ --set image.tag="$docker_tag"
+          helm upgrade -i --namespace helm-notifier helm-notifier-mono deploy/helm-notifier/ --set image.tag="$docker_tag"
           helm tiller stop
 

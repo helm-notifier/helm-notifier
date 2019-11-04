@@ -1,0 +1,6 @@
+replicaCount: 4
+meta:
+  name: helm-notifier
+  shortName: mono
+service:
+  httpPort: 3000
