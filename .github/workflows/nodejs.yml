@@ -54,10 +54,9 @@ jobs:
           helm plugin install https://github.com/databus23/helm-diff
           helm plugin install https://github.com/rimusz/helm-tiller
           echo $kubeconfig | base64 -d > ~/.kube/config
-          echo $docker_tag
           helm init --client-only
           helm tiller start-ci
           export HELM_HOST=127.0.0.1:44134
-          helm list
+          helm upgrade --namespace openfaas-fn helm-notifier-mono deploy/helm-notifier/ --set image.tag="$docker_tag"
           helm tiller stop
 

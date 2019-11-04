@@ -1,0 +1,12 @@
+apiVersion: openfaas.com/v1alpha2
+kind: Function
+metadata:
+  name: helm-notifier
+  namespace: openfaas-fn
+spec:
+  handler: node server.js
+  image: docker pull docker.pkg.github.com/helm-notifier/helm-notifier/app:{{ .Values.image.tag }}
+  name: helm-repositories
+  replicas: 1
+  secrets:
+  - database-uri
