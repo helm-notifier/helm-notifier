@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Publish Docker
-      uses: elgohr/Publish-Docker-Github-Action@2.4
+      uses: elgohr/Publish-Docker-Github-Action@2.7
       with:
         name: helm-notifier/helm-notifier/app
         username: "phumberdroz"
