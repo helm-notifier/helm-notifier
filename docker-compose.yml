@@ -7,9 +7,9 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8080:8080"
+      - "5000:5000"
     environment:
-      DATABASE_URI: postgresql://pguser:pgpass@localhost:5432/pgdb
+      DATABASE_URI: postgresql://pguser:pgpass@db:5432/pgdb
   db:
     image: postgres:11
     restart: always
