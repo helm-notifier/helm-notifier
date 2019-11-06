@@ -29,13 +29,6 @@ async function listByRepoName(repoName) {
   return charts;
 }
 
-
-async function list() {
-  const repos = await knex(tableName)
-    .select();
-  return repos;
-}
-
 async function create(chartName, repoId) {
   const id = uuid();
 
