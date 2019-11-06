@@ -76,11 +76,15 @@ async function diffChartTemplates(chart1, chart2, repoUrl) {
   const diffPath = diff.replace(dirRegex, '');
   return diff2html.getPrettyHtml(diffPath);
 }
+router.get('/', async (ctx, next) =>{
+  ctx.redirect('/repos');
+  return next();
+});
 
 router.get('/repos', async (ctx, next) => {
   const repos = await helmRepoModel.listRepos();
   await ctx.render('app/repos', { repos });
-  next();
+  return next();
 });
 
 
