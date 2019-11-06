@@ -4,3 +4,5 @@ meta:
   shortName: mono
 service:
   httpPort: 5000
+image:
+  tag: latest

@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.meta.name }}
-          image: phumberdroz/helm-notifier:{{ .Values.image.tag }}
+          image: "phumberdroz/helm-notifier:{{ .Values.image.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.httpPort }}
