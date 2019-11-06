@@ -33,11 +33,7 @@ async function getRepo(repoName) {
   const dbObj = await knex(tableName)
     .select()
     .where({ name: repoName })
-    .first()
-    .catch((err) => {
-      console.log(err);
-      throw err;
-    });
+    .first();
   if (dbObj === undefined) {
     throw new Error(`Repo not found ${repoName}`);
   }

@@ -27,10 +27,6 @@ async function get(userMail) {
     .select()
     .where({ email: userMail })
     .first()
-    .catch((err) => {
-      console.log(err);
-      throw err;
-    });
   if (dbObj === undefined) {
     throw new Error(`User not found ${userMail}`);
   }
@@ -42,15 +38,12 @@ async function list() {
     .select();
   return arr;
 }
+
 async function getAuthData(email) {
   const dbObj = await knex(tableName)
     .select('email', 'password', 'id')
     .where({ email })
     .first()
-    .catch((err) => {
-      console.log(err);
-      throw err;
-    });
   if (dbObj === undefined) {
     throw new Error(`User not found ${email}`);
   }
