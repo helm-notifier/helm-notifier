@@ -74,6 +74,7 @@ async function diffChartTemplates(chart1, chart2, repoUrl) {
   const diff = await diffFolders(`${tmpDir}/${chart1.version}`, `${tmpDir}/${chart2.version}`);
   const dirRegex = new RegExp(tmpDir, 'g');
   const diffPath = diff.replace(dirRegex, '');
+  fs.rmdirSync(tmpDir, { recursive: true });
   return diff2html.getPrettyHtml(diffPath);
 }
 router.get('/', async (ctx, next) =>{
