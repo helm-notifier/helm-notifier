@@ -1,4 +1,4 @@
-/* global describe it before */
+/* global describe it after before */
 
 let request = require('supertest');
 const app = require('../server');
@@ -12,7 +12,7 @@ describe('Routes', () => {
   });
   after(async () => {
     app.stopServer();
-  })
+  });
   describe('GET /repos', () => {
     it('returns 200', async () => {
       await request

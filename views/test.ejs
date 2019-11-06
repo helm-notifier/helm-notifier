@@ -8,7 +8,8 @@
     <meta name="generator" content="">
     <title>Helm Notifier</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-light bg-light">
@@ -20,8 +21,9 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <% if(locals.user === undefined) { %>
-    <a href="/auth/register" class="btn btn-outline-success" tabindex="-1" role="button" aria-disabled="true">Register now</a>
-    <%}%>
+        <a href="/auth/register" class="btn btn-outline-success" tabindex="-1" role="button" aria-disabled="true">Register
+            now</a>
+    <% } %>
 </nav>
 <div class="container">
     <%- body %>

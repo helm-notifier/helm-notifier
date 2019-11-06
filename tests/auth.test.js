@@ -1,7 +1,6 @@
 /* global describe it before after */
 let request = require('supertest');
 const { expect } = require('chai');
-const _ = require('lodash');
 const app = require('../server');
 const knex = require('../db');
 const chartModel = require('../models/helmCharts.model');
@@ -25,7 +24,9 @@ describe('Subscriber flow', () => {
     request = request.agent('http://localhost:5000');
   });
   after(async () => {
-    await knex('users').where({ email: 'test@test.de' }).del();
+    await knex('users')
+      .where({ email: 'test@test.de' })
+      .del();
     app.stopServer();
   });
   describe('GET /auth/', () => {
@@ -38,8 +39,12 @@ describe('Subscriber flow', () => {
           password: 'testPassword',
         })
         .then((response) => {
-          expect(response.status).to.equal(302);
-          expect(response.text).to.include('auth/login');
+          expect(response.status)
+            .to
+            .equal(302);
+          expect(response.text)
+            .to
+            .include('auth/login');
         });
     });
     it('/login', async () => {
@@ -51,8 +56,12 @@ describe('Subscriber flow', () => {
           password: 'testPassword',
         })
         .then((response) => {
-          expect(response.status).to.equal(302);
-          expect(response.text).to.include('/repos');
+          expect(response.status)
+            .to
+            .equal(302);
+          expect(response.text)
+            .to
+            .include('/repos');
         });
     });
     it('/subscriptions/:source_type/:source_id', async () => {
@@ -61,14 +70,20 @@ describe('Subscriber flow', () => {
       await request
         .get(`/subscriptions/chartVersionUpdate/${chart.id}`)
         .then((response) => {
-          expect(response.status).to.equal(302);
-          expect(response.text).to.include('/repos');
+          expect(response.status)
+            .to
+            .equal(302);
+          expect(response.text)
+            .to
+            .include('/repos');
         });
     });
     it('generate Notification', async function () {
       this.timeout(3000000000);
       const versions = await chartVersionModel.findByChartId(chart.id);
-      await knex('helm_chartVersions').where({ id: versions[0].id }).del();
+      await knex('helm_chartVersions')
+        .where({ id: versions[0].id })
+        .del();
       await updateRepoData();
     });
   });

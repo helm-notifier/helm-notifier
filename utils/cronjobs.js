@@ -25,6 +25,7 @@ async function updateRepos() {
   trans.result = 'success';
   trans.end();
 }
+
 async function updateChartData(chart, chartData) {
   // Keywords, latest version -> app version
   const uniqKeywords = _.chain(chartData)
@@ -37,6 +38,7 @@ async function updateChartData(chart, chartData) {
   return helmChartModel
     .updateChartData(chart, uniqKeywords, latestChart.appVersion, latestChart.version);
 }
+
 async function updateChartVersions(chart, chartsData) {
   let changes = false;
   const dbChartVersions = await helmChartVersionModel.findByChartId(chart.id);
@@ -51,9 +53,7 @@ async function updateChartVersions(chart, chartsData) {
         const userIdsArr = userIdsObj.map((userIdObj) => userIdObj.user_id);
         await notificationModel.create(userIdsArr, chart.id, 'chartVersionUpdate', found.id, 'chartVersion');
       } catch (e) {
-        if (e.message.includes('Duplicate entry for "helmChartId", version')) {
-          console.log(e);
-        } else {
+        if (!e.message.includes('Duplicate entry for "helmChartId", version')) {
           throw e;
         }
         // Todo: create notification if something fails this is super
@@ -64,9 +64,12 @@ async function updateChartVersions(chart, chartsData) {
     return found;
   }));
   if (changes === true) {
-    await updateChartData(chart, dbChartVersionsUpdated.filter((ele) => ele !== undefined).sort(semVerSortFunction).reverse());
+    await updateChartData(chart, dbChartVersionsUpdated.filter((ele) => ele !== undefined)
+      .sort(semVerSortFunction)
+      .reverse());
   }
-  return dbChartVersionsUpdated.sort(semVerSortFunction).reverse();
+  return dbChartVersionsUpdated.sort(semVerSortFunction)
+    .reverse();
 }
 
 async function updateCharts(repo) {

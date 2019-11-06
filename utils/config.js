@@ -14,8 +14,8 @@ function getConfig(configName) {
 
   return configData;
 }
-[
-].forEach((name) => {
+
+[].forEach((name) => {
   if (getConfig === undefined) {
     throw new Error(`Config entry for ${name} is missing`);
   }

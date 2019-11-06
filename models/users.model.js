@@ -3,6 +3,7 @@ const _ = require('lodash');
 const knex = require('../db');
 
 const tableName = 'users';
+
 async function create(ctx) {
   const body = _.pick(ctx.request.body, ['firstName', 'lastName', 'password', 'email', 'password']);
   const salt = bcrypt.genSaltSync();
@@ -13,7 +14,8 @@ async function create(ctx) {
     .returning('*')
     .catch((err) => {
       if (err.code === '23505') {
-        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '').replace(')', '');
+        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '')
+          .replace(')', '');
         throw new Error(`Duplicate entry for ${collumn}`);
       } else {
         throw err;

@@ -12,7 +12,8 @@ async function create(ctx) {
     .returning('*')
     .catch((err) => {
       if (err.code === '23505') {
-        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '').replace(')', '');
+        const collumn = err.detail.match(/\((.*?)\)/g)[0].replace('(', '')
+          .replace(')', '');
         throw new Error(`Duplicate entry for ${collumn}`);
       } else {
         throw err;
@@ -24,7 +25,10 @@ async function create(ctx) {
 async function getSubscribers(sourceType, sourceId) {
   return knex(tableName)
     .select('user_id')
-    .where({ source_type: sourceType, source_id: sourceId });
+    .where({
+      source_type: sourceType,
+      source_id: sourceId,
+    });
 }
 
 module.exports = {

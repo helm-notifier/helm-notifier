@@ -77,7 +77,8 @@ async function diffChartTemplates(chart1, chart2, repoUrl) {
   fs.rmdirSync(tmpDir, { recursive: true });
   return diff2html.getPrettyHtml(diffPath);
 }
-router.get('/', async (ctx, next) =>{
+
+router.get('/', async (ctx, next) => {
   ctx.redirect('/repos');
   return next();
 });
