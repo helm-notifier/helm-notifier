@@ -1,12 +1,20 @@
-<ul>
-    <% locals.chart.versions.forEach((chartVersion, index) => { %>
-        <li><%= chartVersion.version %> -
-            <% if(index === 0){ %>
-                current
-            <% } else { %>
-                <a href="/repos/<%= repoName %>/<%= chart.name %>/<%= chartVersion.version %>...<%= chart.versions[index - 1].version %>">Compare
-                    to next release</a>
-            <% } %>
-        </li>
-    <% }); %>
-</ul>
+<div class="row">
+    <div class="col-8">
+        <%- readmehtml %>
+    </div>
+    <div class="col-4">
+        <ul>
+            <% locals.chart.versions.forEach((chartVersion, index) => { %>
+                <li><%= chartVersion.version %> -
+                    <% if(index === 0){ %>
+                        current
+                    <% } else { %>
+                        <a href="/repos/<%= repoName %>/<%= chart.name %>/<%= chartVersion.version %>...<%= chart.versions[index - 1].version %>">Compare
+                            to next release</a>
+                    <% } %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+</div>
