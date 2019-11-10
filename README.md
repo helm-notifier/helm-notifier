@@ -15,12 +15,6 @@ If you really want to run helm-notifier yourself, no problem! Just follow these 
     cd helm-notifier
     ```
 
-1. Run `npm install`
-
-    ```sh
-    npm install
-    ```
-
 1. Build and start the docker-compose stack
 
     ```sh
