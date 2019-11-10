@@ -6,7 +6,9 @@ const helmChartModel = require('../models/helmCharts.model');
 const helmChartVersionModel = require('../models/helmChartVersions.model');
 const notificationModel = require('../models/notifactions.model');
 const subscriberModel = require('../models/subscriptions.model');
+const diffHelmCharts = require('./diffHelmCharts');
 const semVerSortFunction = require('../utils/sortSemVer');
+const yaml = require('js-yaml');
 
 const apm = require('../elasticApm');
 
@@ -35,8 +37,17 @@ async function updateChartData(chart, chartData) {
     .filter()
     .value();
   const latestChart = chartData[0];
+  const helmRepo = await helmRepoModel.getRepoById({ params: { repoId: chart.helmRepoId } });
+  const fileTree = await diffHelmCharts.readHelmChart(latestChart, helmRepo.url);
+  const chartYaml = fileTree.children.find((file) => file.name.toLowerCase() === 'chart.yaml');
+  let icon;
+  try {
+    icon = yaml.safeLoad(chartYaml.content).icon;
+  } catch (e) {
+    console.log(e);
+  }
   return helmChartModel
-    .updateChartData(chart, uniqKeywords, latestChart.appVersion, latestChart.version);
+    .updateChartData(chart, uniqKeywords, latestChart.appVersion, latestChart.version, icon);
 }
 
 async function updateChartVersions(chart, chartsData) {

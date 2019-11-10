@@ -5,6 +5,7 @@ const koaLogger = require('koa-pino-logger');
 const bodyParser = require('koa-bodyparser');
 const session = require('koa-session');
 const passport = require('koa-passport');
+const cors = require('@koa/cors');
 const knex = require('./db');
 const appRouter = require('./routes/app.routes');
 const authRouter = require('./routes/auth.routes');
@@ -19,7 +20,7 @@ const app = new Koa();
 app.keys = ['secret'];
 app.use(session({}, app));
 app.use(koaLogger());
-
+app.use(cors());
 // Todo: Google, twitter and Github Auth Providers implementation: https://github.com/rkusa/koa-passport-example
 app.use(passport.initialize());
 app.use(passport.session());

@@ -3,12 +3,14 @@ const diff2html = require('diff2html').Diff2Html;
 const tempDirectory = require('temp-dir');
 const tar = require('tar');
 const path = require('path');
-const { writeFile } = require('fs');
 const { promisify } = require('util');
 const { exec } = require('child_process');
 const fs = require('fs');
+const _ = require('lodash');
+const dirTree = require('directory-tree');
 
-const writeFilePromise = promisify(writeFile);
+const readFileAsync = promisify(fs.readFile);
+const writeFilePromise = promisify(fs.writeFile);
 
 function downloadFile(fileUrl, outputPath) {
   return fetch(fileUrl)
@@ -38,7 +40,7 @@ async function diffFolders(folder1, folder2) {
 }
 
 async function downloadChart(chart, tmpDir, repoUrl) {
-  let chartUrl;
+  let  chartUrl;
   try {
     chartUrl = new URL(chart.urls[0]);
   } catch (e) {
@@ -59,6 +61,23 @@ async function downloadChart(chart, tmpDir, repoUrl) {
   return `${tmpDir}/${chart.version}`;
 }
 
+async function readFileTree(tree, dirRegex) {
+  const newTree = tree;
+  newTree.children = await Promise.all(newTree.children.map(async (child) => {
+    let newChild = child;
+    if (newChild.type === 'file') {
+      newChild.content = await readFileAsync(newChild.path, 'utf8');
+    } else if (child.type === 'directory') {
+      newChild = await readFileTree(newChild, dirRegex);
+    }
+
+    newChild.path = newChild.path.replace(dirRegex, '');
+    return newChild;
+  }));
+  newTree.children = _.sortBy(newTree.children, ['type', 'name']);
+  return newTree;
+}
+
 async function diffChartTemplates(chart1, chart2, repoUrl) {
   const tmpDir = await createTempFolder();
   await Promise.all([
@@ -70,7 +89,23 @@ async function diffChartTemplates(chart1, chart2, repoUrl) {
   const dirRegex = new RegExp(tmpDir, 'g');
   const diffPath = diff.replace(dirRegex, '');
   fs.rmdirSync(tmpDir, { recursive: true });
-  return diff2html.getPrettyHtml(diffPath);
+  return diffPath;
 }
 
-module.exports = { diffChartTemplates, downloadChart, createTempFolder };
+async function readHelmChart(chartVersion, repoUrl) {
+  const tmpFolder = await createTempFolder();
+
+  const chartPath = await downloadChart(chartVersion, tmpFolder, repoUrl);
+  const dirRegex = new RegExp(`${tmpFolder}/${chartVersion.version}/`, 'g');
+  const tree = dirTree(chartPath, null, null, null);
+  const treeWithFileContents = await readFileTree(tree, dirRegex);
+  fs.rmdirSync(tmpFolder, { recursive: true });
+  return treeWithFileContents.children[0];
+}
+
+module.exports = {
+  diffChartTemplates,
+  readHelmChart,
+  downloadChart,
+  createTempFolder,
+};

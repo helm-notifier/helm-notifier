@@ -59,13 +59,14 @@ async function search(ctx) {
   return dbObjs;
 }
 
-async function updateChartData(chart, keywords, appVersion, chartVersion) {
+async function updateChartData(chart, keywords, appVersion, chartVersion, icon_url) {
   return knex(tableName)
     .where('id', chart.id)
     .update({
       keywords,
       appVersion,
       version: chartVersion,
+      icon_url,
     });
 }
 
