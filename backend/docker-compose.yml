@@ -3,17 +3,13 @@ version: '3.1'
 services:
   app:
     build:
-      context: ./backend
+      context: .
+    volumes:
+      - .:/app
     ports:
       - "5000:5000"
     environment:
       DATABASE_URI: postgresql://pguser:pgpass@db:5432/pgdb
-
-  web:
-    build:
-      context: ./frontend
-    ports:
-      - "8080:8080"
   db:
     image: postgres:11
     restart: always
