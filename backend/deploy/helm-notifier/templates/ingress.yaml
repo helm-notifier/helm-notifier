@@ -14,7 +14,7 @@ spec:
     tls:
         - hosts:
               - api.helm-notifier.com
-          secretName: apiHelmNotifier
+          secretName: letsencrypt-prod
     rules:
         - host: api.helm-notifier.com
           http:
