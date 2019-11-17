@@ -90,7 +90,7 @@ typings/
 .dynamodb/
 .DS_Store
 node_modules
-/dist
+frontend/dist
 
 /tests/e2e/videos/
 /tests/e2e/screenshots/

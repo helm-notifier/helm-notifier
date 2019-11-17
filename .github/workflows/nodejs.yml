@@ -42,6 +42,7 @@ jobs:
           username: "phumberdroz"
           password: ${{ secrets.DOCKER_PASSWORD }}
           snapshot: true
+          workdir: backend
       - name: Helm test
         env:
           kubeconfig: ${{ secrets.kubeconfig }}
@@ -53,6 +54,7 @@ jobs:
           helm plugin install https://github.com/databus23/helm-diff
           helm plugin install https://github.com/rimusz/helm-tiller
           echo $kubeconfig | base64 -d > ~/.kube/config
+          cd backend
           helm init --client-only
           helm tiller start-ci
           export HELM_HOST=127.0.0.1:44134
