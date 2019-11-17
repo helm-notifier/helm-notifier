@@ -13,10 +13,10 @@ metadata:
 spec:
     tls:
         - hosts:
-              - helm-notifier.com
+              - api.helm-notifier.com
           secretName: letsencrypt-prod
     rules:
-        - host: helm-notifier.com
+        - host: api.helm-notifier.com
           http:
               paths:
                   - path: /
