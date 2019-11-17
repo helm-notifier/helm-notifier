@@ -13,12 +13,12 @@
               </router-link>
             </h5>
             <h6 class="card-subtitle mb-2 text-muted">Chart Version: {{chart.version}}</h6>
-            <a href="/repos/<%= chart.repo.name %>/<%= chart.name %>" class="card-link">
-              Chart Versions
-            </a>
-            <a href="/subscriptions/chartVersionUpdate/<%= chart.id %>" class="card-link">
-              Subscribe
-            </a>
+<!--            <a href="/repos/<%= chart.repo.name %>/<%= chart.name %>" class="card-link">-->
+<!--              Chart Versions-->
+<!--            </a>-->
+<!--            <a href="/subscriptions/chartVersionUpdate/<%= chart.id %>" class="card-link">-->
+<!--              Subscribe-->
+<!--            </a>-->
           </div>
         </div>
       </div>

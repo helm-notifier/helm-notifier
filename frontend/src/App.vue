@@ -2,7 +2,9 @@
   <div id="app">
     <nav class="navbar navbar-light bg-light mb-2">
       <a class="navbar-brand" href="/">
-        Helm Notifier
+        <router-link to="/repos">
+          Helm Notifier
+        </router-link>
       </a>
     </nav>
     <router-view />
