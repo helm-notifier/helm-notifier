@@ -44,7 +44,7 @@ export default {
       this.loading = true;
       const { repoName } = this.$route.params;
 
-      fetch(`http://localhost:5000/repos/${repoName}`)
+      fetch(`https://api.helm-notifier.com/repos/${repoName}`)
         .then(res => res.json())
         .then((resJson) => {
           this.loading = false;

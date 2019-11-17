@@ -27,7 +27,7 @@ export default {
     fetchData() {
       // eslint-disable-next-line no-multi-assign=
       this.loading = true;
-      fetch('http://localhost:5000/repos/')
+      fetch('https://api.helm-notifier.com/repos/')
         .then(res => res.json())
         .then((resJson) => {
           this.loading = false;

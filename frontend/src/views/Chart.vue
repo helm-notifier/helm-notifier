@@ -38,7 +38,8 @@ export default {
       // eslint-disable-next-line no-multi-assign=
       this.loading = true;
       const { chartName, repoName, version } = this.$route.params;
-      fetch(`http://localhost:5000/repos/${repoName}/${chartName}/${version || ''}`)
+
+      fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/${version === 'latest' ? '' : version || ''}`)
         .then(res => res.json())
         .then((resJson) => {
           this.loading = false;
