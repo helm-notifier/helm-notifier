@@ -23,12 +23,16 @@
       :versions="versions"
       :side="'right'"
     />
-    <pre v-text="diff"></pre>
+    <div>
+      <div v-html="prettyHtml" />
+    </div>
   </div>
 </template>
 
 <script>
+import { Diff2Html } from 'diff2html';
 import VersionSelectorCompare from '@/components/VersionSelectorCompare.vue';
+import 'diff2html/dist/diff2html.min.css';
 
 export default {
   name: 'ChartCompare',
@@ -51,6 +55,16 @@ export default {
       right,
       diff: '',
     };
+  },
+  computed: {
+    prettyHtml() {
+      return Diff2Html.getPrettyHtml(this.diff, {
+        inputFormat: 'diff',
+        showFiles: false,
+        matching: 'lines',
+        outputFormat: 'side-by-side',
+      });
+    },
   },
   methods: {
     messageReceived(side, version) {
