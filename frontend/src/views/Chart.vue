@@ -4,6 +4,11 @@
       Loading...
     </div>
     <VersionSelector v-bind:versions="versions"></VersionSelector>
+    <router-link class="ml-1 btn btn-sm btn-success" :to="{name: 'chartCompare', params: {
+                repoName: $route.params.repoName,
+                chartName: $route.params.chartName,
+                }}">compare</router-link>
+
     <FileBrowser v-bind:chartTree="chartTree" v-bind:loading="loading"/>
     <Markdown v-bind:markdown="readmeFile.content" v-bind:loading="loading" />
   </div>
@@ -13,6 +18,7 @@
 import FileBrowser from '@/components/FileBrowser.vue';
 import Markdown from '@/components/Markdown.vue';
 import VersionSelector from '@/components/VersionSelector.vue';
+
 
 export default {
   name: 'home',
@@ -33,12 +39,14 @@ export default {
       versions: [],
     };
   },
+  watch: {
+    $route: 'fetchData',
+  },
   methods: {
     fetchData() {
       // eslint-disable-next-line no-multi-assign=
       this.loading = true;
       const { chartName, repoName, version } = this.$route.params;
-
       fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/${version === 'latest' ? '' : version || ''}`)
         .then(res => res.json())
         .then((resJson) => {

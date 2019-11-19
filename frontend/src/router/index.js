@@ -16,13 +16,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "repo" */ '../views/Repo'),
   },
   {
-    path: '/repos/:repoName/:chartName/:version?/:path?',
-    name: 'chartView',
-    component: () => import(/* webpackChunkName: "chartName" */ '../views/Chart.vue'),
+    path: '/repos/:repoName/:chartName/compare/:versions?',
+    name: 'chartCompare',
+    component: () => import(/* webpackChunkName: "ChartCompare" */ '../views/ChartCompare.vue'),
   },
   {
-    path: '/repos/:repoName/:chartName/compare/:versions',
-    name: 'chartCompare',
+    path: '/repos/:repoName/:chartName/:version?/:path?',
+    name: 'chartView',
     component: () => import(/* webpackChunkName: "chartName" */ '../views/Chart.vue'),
   },
 ];

@@ -38,7 +38,7 @@ function findFolder(tree, path) {
   return tree;
 }
 export default {
-  name: 'HelloWorld',
+  name: 'FileBrowser',
   props: {
     chartTree: Object,
   },
