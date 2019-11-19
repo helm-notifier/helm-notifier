@@ -35,13 +35,20 @@ export default {
   components: { VersionSelectorCompare },
   created() {
     this.fetchData();
+    this.fetchDiff();
   },
   data() {
+    const { versions } = this.$route.params;
+    let left = '';
+    let right = '';
+    if (versions) {
+      [left, right] = versions.split('...');
+    }
     return {
       loading: false,
       versions: [],
-      left: '',
-      right: '',
+      left,
+      right,
       diff: '',
     };
   },
@@ -55,13 +62,17 @@ export default {
       this.fetchDiff();
     },
     fetchDiff() {
-      const { chartName, repoName, versions } = this.$route.params;
-      fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/compare/${versions}`)
-        .then(res => res.text())
-        .then((resText) => {
-          this.diff = resText;
-          return resText;
-        });
+      if (this.left !== this.right) {
+        const { chartName, repoName, versions } = this.$route.params;
+        fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/compare/${versions}`)
+          .then(res => res.text())
+          .then((resText) => {
+            this.diff = resText;
+            return resText;
+          });
+      } else {
+        this.diff = '';
+      }
     },
     fetchData() {
       this.loading = true;
