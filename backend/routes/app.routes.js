@@ -58,7 +58,8 @@ router.get('/search', async (ctx, next) => {
     updatedChart.repo = helmRepos.find((repo) => repo.id === chart.helmRepoId);
     return chart;
   });
-  await ctx.render('app/charts', { charts });
+
+  ctx.response.body =  charts;
   return next();
 });
 module.exports = router;
