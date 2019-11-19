@@ -8,18 +8,18 @@
     <VersionSelectorCompare
       v-if="versions.length"
       v-on:versionCompareChange="messageReceived"
-      :version="left"
       :left="left"
       :right="right"
+      :version="left"
       :versions="versions"
       :side="'left'"
     />
     <VersionSelectorCompare
       v-if="versions.length"
       v-on:versionCompareChange="messageReceived"
-      :version="right"
       :left="left"
       :right="right"
+      :version="right"
       :versions="versions"
       :side="'right'"
     />
@@ -90,14 +90,16 @@ export default {
     },
     fetchData() {
       this.loading = true;
-      const { chartName, repoName, version } = this.$route.params;
-      fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/${version === 'latest' ? '' : version || ''}`)
+      const { chartName, repoName, versions } = this.$route.params;
+      fetch(`https://api.helm-notifier.com/repos/${repoName}/${chartName}/`)
         .then(res => res.json())
         .then((resJson) => {
           this.loading = false;
           this.versions = resJson.chart.versions;
-          this.left = this.versions[0].version;
-          this.right = this.versions[0].version;
+          if (!versions) {
+            this.left = this.versions[0].version;
+            this.right = this.versions[0].version;
+          }
           return resJson;
         });
     },
