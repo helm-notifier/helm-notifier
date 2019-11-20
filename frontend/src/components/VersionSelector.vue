@@ -17,7 +17,11 @@
             class="dropdown-item"
             v-for="version in filteredVersions"
             :key="version.id"
-            :to="'/repos/stable/grafana/'+version.version"
+            :to="{name: 'chartView', params: {
+                repoName: $route.params.repoName,
+                chartName: $route.params.chartName,
+                version: version.version
+                }}"
           >
             {{version.version}}
           </router-link>
