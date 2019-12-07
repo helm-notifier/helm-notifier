@@ -1,0 +1,93 @@
+extends ../layout
+
+block body
+  .container-fluid.py-3
+    .row.mt-1
+      .col
+        include ../_breadcrumbs
+        p.lead Fuck this shit I am out of heres
+        div.row.pt-1
+          each contract in contracts
+            - const container = PmaConfig.containers.find(container => contract.PmaOffer.query.container_id === container.id)
+            - const pickupFrequency = PmaConfig.pick_ups.find(pickup => contract.PmaOffer.query.pick_up === pickup.value).title
+            - const isOnDemand = (pickupFrequency === 'auf Abruf')
+            div.col-md-4
+              div.offer-box
+                div.offer-head
+                  div.offer-line
+                    div
+                      div.id
+                        p= "ID: " + contract.id
+                      div.first-date
+                        p="Erstelldatum: " + moment(contract.created_at).format('D.M.YYYY')
+                      if contract.offerState === 'ordered'
+                        div.update-status
+                          p
+                          if contract.PmaOffer.total_prices.estimated === true
+                            ="Angefragt: " + moment(contract.orderedOn).format('D.M.YYYY')
+                          else
+                            ="Bestellt: " + moment(contract.orderedOn).format('D.M.YYYY')
+                      if contract.offerState === 'contract'
+                        div.aktiviert-status
+                          p="Aktiviert am: " + moment(contract.contractedOn).format('D.M.YYYY')
+                    if contract.offerState === 'created'
+                      div
+                        if !user.checkout_ok
+                          a.status-btn-order(href=l('/my-account'))="Rechnungsdaten"
+                        else if contract.PmaOffer.total_prices.estimated === true
+                          a.status-btn-order(href=l(`/contract/order/${contract.id}`))="Anfragen"
+                        else
+                          a.status-btn-order(href=l(`/contract/order/${contract.id}`))="Bestellen"
+                  if !user.emailVerified
+                    div.offer-line-notice.red
+                      p="Bitte bestätigen Sie Ihre E-Mail-Adresse"
+                  else if contract.offerState !== 'contract' && !user.checkout_ok
+                    div.offer-line-notice.red
+                      p="Bitte tragen Sie Ihre Rechnungsdaten ein, um bestellen zu können"
+                  else if contract.offerState === 'created' && contract.PmaOffer.total_prices.estimated === true
+                    div.offer-line-notice.red
+                      p="Vorläufiges Angebot: Überprüfung durch unseren Vertrieb notwendig"
+                  else if contract.offerState === 'ordered' && contract.PmaOffer.total_prices.estimated === true
+                    div.offer-line-notice.red
+                      p="In Bearbeitung: Überprüfung durch unseren Vertrieb notwendig"
+                  else if contract.offerState === 'ordered' && contract.PmaOffer.total_prices.estimated === false
+                    div.offer-line-notice.red
+                      p="In Bearbeitung: Unser Vertrieb wird Sie kontaktieren"
+                div.offer-config
+                  div.adress
+                    span.upper-head="Abholadresse"
+                    p=`${contract.PmaOffer.query.location.street} ${contract.PmaOffer.query.location.house_number},`
+                    p=`${contract.PmaOffer.query.location.zip} ${contract.PmaOffer.query.location.city}`
+                div.offer-detail
+                  div.cost-overview
+                    div.attributes
+                      span.upper-head="Angebotskonfiguration"
+                      div.line
+                        p.offer-attribute="Wertstoff"
+                        p.offer-value=contract.PmaOffer.waste.title
+                      div.line
+                        p.offer-attribute="Behälter"
+                        p.offer-value=`${contract.PmaOffer.query.count} x ${contract.PmaOffer.containerDescription}`
+                      div.line-container-img
+                        p.offer-attribute
+                          if container.icon_url
+                            img.container-img(src=container.icon_url alt="Symbolbild Container")
+                          else
+                            img.container-img(src="https://pma-app.prezero.dev/configurator/assets/images/no_img.svg" alt="Symbolbild Container")
+                      div.divider-line
+                      div.attributes
+                        span.upper-head= isOnDemand ? "Preisübersicht (pro Monat)" : "Ihre Kostenübersicht"
+                        div.line
+                          p.offer-attribute=`Behältermiete ${isOnDemand ? "(pro Monat)" : ""}`
+                          p.offer-value=formatEuro(contract.PmaOffer.total_prices.rent_with_fee)
+                        div.line
+                          p.offer-attribute=`Transport ${isOnDemand ? "(pro Monat)" : ""}`
+                          p.offer-value=formatEuro(contract.PmaOffer.transportPrice)
+                        div.line
+                          p.offer-attribute=`${contract.PmaOffer.total_prices.compensation_with_fee < 0? "Gutschrift*": "Verwertungsgebühr*"} ${isOnDemand ? "(pro Abholung)" : ""}`
+                          p.offer-value=formatEuro(contract.PmaOffer.total_prices.compensation_with_fee)
+                if contract.offerState !== "contract"
+                  div.delete-line
+                    a(href=l(`/contract/delete/${contract.id}`))
+                      i.fas.fa-trash-alt
+                      =`${contract.PmaOffer.total_prices.estimated ? "Anfrage" : "Bestellung" } stornieren`

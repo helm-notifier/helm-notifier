@@ -1,0 +1,8 @@
+replicaCount: 1
+meta:
+  name: sales-agent-application
+  shortName: saa
+service:
+  httpPort: 5000
+image:
+  tag: latest

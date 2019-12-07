@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URI: postgresql://pguser:pgpass@localhost:5432/pgdb
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_USER: pguser
+      POSTGRES_DB: pgdb
+    ports:
+      - 5432:5432
+  mongo:
+    image: mongo:3.6
+    restart: always
+    ports:
+      - 27017:27017
+  redis:
+    image: redis:4
+    ports:
+      - 6379:6379
+  mail:
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025

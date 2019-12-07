@@ -1,0 +1,74 @@
+
+extends ../layout
+
+block body
+  .container-fluid.py-3
+    .row.mt-1
+      .col
+        include ../_breadcrumbs
+        div.table-responsive
+          table.table.table-striped
+            thead
+              tr
+                th="Kunde"
+                th="Konfigurationsdetails"
+                th="Abholungsort"
+                th="Kosten"
+                th="Status"
+                th="Kunde"
+                th="Aktion"
+            tbody
+              each contract in contracts
+                - const pickupFrequency = PmaConfig.pick_ups.find(pickup => contract.PmaOffer.query.pick_up === pickup.value).title
+                - const isOnDemand = (pickupFrequency === 'auf Abruf')
+                tr
+                  td
+                    div.table_flex-row=contract.User.companyName
+                    div.table_flex-row=`${contract.User.given_name} ${contract.User.family_name}`
+                    div.table_flex-row=contract.User.email
+                  td
+                    div.table_flex-row=contract.id
+                    div.table_flex-row=contract.PmaOffer.waste.title
+                    div.table_flex-row=`${contract.PmaOffer.query.count} x ${contract.PmaOffer.containerDescription}`
+                    div.table_flex-row=`${pickupFrequency}, ab KW ${contract.PmaOffer.query.week}`
+                  td
+                    div.table_flex-row=`${contract.PmaOffer.query.location.street} ${contract.PmaOffer.query.location.house_number}`
+                    div.table_flex-row=`${contract.PmaOffer.query.location.zip} ${contract.PmaOffer.query.location.city}`
+                  td
+                    div.table_flex-row.space_between=`Behältermiete: ${formatEuro(contract.PmaOffer.total_prices.rent_with_fee)}`
+                    div.table_flex-row.space_between=`Transport: ${formatEuro(contract.PmaOffer.total_prices.transportation_with_fee)}`
+                    div.table_flex-row.space_between=`${contract.PmaOffer.total_prices.compensation_with_fee < 0? "Gutschrift": "Verwertungsgebühr"}: ${formatEuro(contract.PmaOffer.total_prices.compensation_with_fee)}`
+                    div.table_flex-row.space_between
+                      if isOnDemand === true
+                        =`Pro Abholung: ${formatEuro(contract.PmaOffer.total_prices.transportation_with_fee + contract.PmaOffer.total_prices.bin_flat_rate_with_fee + contract.PmaOffer.total_prices.compensation_with_fee)}`
+                      else
+                        =`Gesamt ${contract.PmaOffer.total_prices.estimated === true ? "(Vorläufig)": ""}: ${formatEuro(contract.PmaOffer.total_prices.compensation_with_fee)}`
+                  td
+                    div.table_flex-row.space_between
+                      i.fas.fa-sign-in-alt.icon_front
+                      =" "
+                      =moment(contract.created_at).format('DD.MM.YYYY')
+                    div.table_flex-row
+                      i.fas.fa-shopping-cart.icon_front
+                      =" "
+                      if contract.orderedOn
+                        =moment(contract.orderedOn).format('DD.MM.YYYY')
+                      else
+                        =" - "
+                    div.table_flex-row
+                      i.fas.fa-vote-yea.icon_front
+                      =" "
+                      if contract.activatedOn
+                        =moment(contract.activatedOn).format('DD.M M.YYYY')
+                      else
+                        =" - "
+                    div.table_flex-row
+                      i.fas.fa-vector-square.icon_front
+                      =" "
+                      if contract.sapTransferStatus
+                        =moment(contract.sapTransferStatus).format('DD.M M.YYYY')
+                      else
+                        =" - "
+                  td
+                    div.table_flex-row
+                      a(href=l(`/admin/contracts/${contract.id}`))="Details"

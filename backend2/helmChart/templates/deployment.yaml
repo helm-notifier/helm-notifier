@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.meta.name }}
+    labels:
+        helm.sh/chart: {{ .Values.meta.name }}-0.1.0
+        app.kubernetes.io/name: {{ .Values.meta.name }}
+        app.kubernetes.io/instance: {{ .Values.meta.name }}
+        app.kubernetes.io/managed-by: Tiller
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            app.kubernetes.io/name: {{ .Values.meta.name }}
+            app.kubernetes.io/instance: {{ .Values.meta.name }}
+    template:
+        metadata:
+            labels:
+                app.kubernetes.io/name: {{ .Values.meta.name }}
+                app.kubernetes.io/instance: {{ .Values.meta.name }}
+        spec:
+            containers:
+                - name: {{ .Values.meta.name }}
+                  image: "prezero.azurecr.io/{{.Values.meta.name}}:{{ .Values.image.tag }}"
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: {{ .Values.service.httpPort }}
