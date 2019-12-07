@@ -2,33 +2,18 @@
   <div>
     <div class="row">
       <div class="col-sm-3" v-for="chart in charts" v-bind:key="chart.id">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">
-              <router-link :to="{name: 'chartView', params: {
-                repoName: chart.repo_name,
-                chartName:chart.name
-                }}">
-                {{ chart.repo_name }}/{{ chart.name }}
-              </router-link>
-            </h5>
-            <h6 class="card-subtitle mb-2 text-muted">Chart Version: {{chart.version}}</h6>
-<!--            <a href="/repos/<%= chart.repo.name %>/<%= chart.name %>" class="card-link">-->
-<!--              Chart Versions-->
-<!--            </a>-->
-<!--            <a href="/subscriptions/chartVersionUpdate/<%= chart.id %>" class="card-link">-->
-<!--              Subscribe-->
-<!--            </a>-->
-          </div>
-        </div>
+        <ChartListItem :chart="chart"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ChartListItem from '@/components/chartListItem.vue';
+
 export default {
   name: 'Repo',
+  components: { ChartListItem },
   created() {
     this.fetchData();
   },
