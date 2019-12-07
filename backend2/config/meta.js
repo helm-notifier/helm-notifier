@@ -15,7 +15,7 @@
 // `<title>` and `<meta name="description">`
 //
 
-module.exports = function(config) {
+module.exports = function (config) {
   // currently we cannot use the `|` pipe character due to this issue
   // <https://github.com/mashpie/i18n-node/issues/274>
   // otherwise we'd have `| Lad` below, which is SEO standard
@@ -32,35 +32,35 @@ module.exports = function(config) {
     '/privacy': [`Privacy Policy ${lad}`, 'Read our privacy policy'],
     '/support': [
       `Support ${lad}`,
-      `Ask ${config.appName} your questions or leave comments`
+      `Ask ${config.appName} your questions or leave comments`,
     ],
     '/login': [`Sign in ${lad}`, 'Sign in to your account'],
     '/logout': [`Sign out of ${lad}`, 'Sign out of your account'],
     '/register': [`Sign up ${lad}`, `Create a ${config.appName} account`],
     '/my-account': [
       `My Account ${lad}`,
-      `Manage your ${config.appName} profile`
+      `Manage your ${config.appName} profile`,
     ],
     '/my-account/api': [`API ${lad}`, 'Manage your API credentials'],
     '/dashboard': [
       `Dashboard ${lad}`,
-      `Access your ${config.appName} account dashboard`
+      `Access your ${config.appName} account dashboard`,
     ],
     '/admin': [`Admin ${lad}`, `Access your ${config.appName} admin`],
-    '/contract': [`Contracts`, `Access your ${config.appName} contracts`],
+    '/contract': ['Contracts', `Access your ${config.appName} contracts`],
     '/forgot-password': [
       `Forgot password ${lad}`,
-      'Reset your account password'
+      'Reset your account password',
     ],
     '/reset-password': [
       `Reset password ${lad}`,
-      'Confirm your password reset token'
+      'Confirm your password reset token',
     ],
     '/auth': [`Auth ${lad}`, 'Authenticate yourself to log in'],
     '/404': [
       `Page not found ${lad}`,
-      'The page you requested could not be found'
+      'The page you requested could not be found',
     ],
-    '/500': [`Server error ${lad}`, 'A server error has unfortunately occurred']
+    '/500': [`Server error ${lad}`, 'A server error has unfortunately occurred'],
   };
 };

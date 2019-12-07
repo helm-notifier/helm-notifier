@@ -16,23 +16,20 @@ async function support(ctx) {
 
   body = _.pick(body, ['email', 'message']);
 
-  if (!_.isString(body.email) || !validator.isEmail(body.email))
-    throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
+  if (!_.isString(body.email) || !validator.isEmail(body.email)) throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
 
-  if (!_.isUndefined(body.message) && !_.isString(body.message))
-    delete body.message;
-
-  if (_.isString(body.message))
-    body.message = sanitize(body.message, {
-      allowedTags: [],
-      allowedAttributes: []
-    });
+  if (!_.isUndefined(body.message) && !_.isString(body.message)) delete body.message;
 
   if (_.isString(body.message)) {
-    if (!isSANB(body.message))
-      throw Boom.badRequest(ctx.translate('INVALID_MESSAGE'));
-    if (body.message.length > config.supportRequestMaxLength)
-      throw Boom.badRequest(ctx.translate('INVALID_MESSAGE'));
+    body.message = sanitize(body.message, {
+      allowedTags: [],
+      allowedAttributes: [],
+    });
+  }
+
+  if (_.isString(body.message)) {
+    if (!isSANB(body.message)) throw Boom.badRequest(ctx.translate('INVALID_MESSAGE'));
+    if (body.message.length > config.supportRequestMaxLength) throw Boom.badRequest(ctx.translate('INVALID_MESSAGE'));
   } else {
     body.message = ctx.translate('SUPPORT_REQUEST_MESSAGE');
     body.is_email_only = true;
@@ -43,26 +40,25 @@ async function support(ctx) {
   const count = await Inquiries.countDocuments({
     $or: [
       {
-        ip: ctx.ip
+        ip: ctx.ip,
       },
       {
-        email: body.email
-      }
+        email: body.email,
+      },
     ],
     created_at: {
       $gte: moment()
         .subtract(1, 'day')
-        .toDate()
-    }
+        .toDate(),
+    },
   });
 
-  if (count > 0 && config.env !== 'development')
-    throw Boom.badRequest(ctx.translate('SUPPORT_REQUEST_LIMIT'));
+  if (count > 0 && config.env !== 'development') throw Boom.badRequest(ctx.translate('SUPPORT_REQUEST_LIMIT'));
 
   try {
     const inquiry = await Inquiries.create({
       ...body,
-      ip: ctx.ip
+      ip: ctx.ip,
     });
 
     ctx.logger.debug('created inquiry', inquiry);
@@ -71,12 +67,12 @@ async function support(ctx) {
       template: 'inquiry',
       message: {
         to: body.email,
-        cc: config.email.from
+        cc: config.email.from,
       },
       locals: {
         locale: ctx.locale,
-        inquiry
-      }
+        inquiry,
+      },
     });
 
     ctx.logger.info('added job', bull.getMeta({ job }));

@@ -1,24 +1,24 @@
+/* global describe it */
+
 const util = require('util');
-const {expect} = require('chai');
+const { expect } = require('chai');
 require('../global');
 const phrases = require('../../config/phrases');
-const {User, Contract} = require('../../app/models');
+const { User, Contract } = require('../../app/models');
 
-const wait = ms => new Promise(r => setTimeout(r, ms));
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const retryOperation = (operation, delay, times) => new Promise((resolve, reject) => {
-  return operation()
-    .then(resolve)
-    .catch((reason) => {
-      if (times - 1 > 0) {
-        return wait(delay)
-          .then(retryOperation.bind(null, operation, delay, times - 1))
-          .then(resolve)
-          .catch(reject);
-      }
-      return reject(reason);
-    });
-});
+const retryOperation = (operation, delay, times) => new Promise((resolve, reject) => operation()
+  .then(resolve)
+  .catch((reason) => {
+    if (times - 1 > 0) {
+      return wait(delay)
+        .then(retryOperation.bind(null, operation, delay, times - 1))
+        .then(resolve)
+        .catch(reject);
+    }
+    return reject(reason);
+  }));
 
 function parseCookies(response) {
   const raw = response.headers.raw()['set-cookie'];
@@ -29,12 +29,12 @@ function parseCookies(response) {
   }).join(';');
 }
 function getOffer() {
-  return fetch("https://api.pma.prezero.dev/api/saa/offers", {
-    "credentials": "include",
-    "headers": {
-      "content-type": "application/json",
+  return fetch('https://api.pma.prezero.dev/api/saa/offers', {
+    credentials: 'include',
+    headers: {
+      'content-type': 'application/json',
     },
-    "body": JSON.stringify({
+    body: JSON.stringify({
       configuration: {
         container_id: 1,
         waste_id: 1,
@@ -50,12 +50,12 @@ function getOffer() {
           city: 'Berlin',
           street: 'Wasserwerkstraße',
           house_number: '30',
-          zip: '13589'
-        }
-      }
+          zip: '13589',
+        },
+      },
     }),
-    "method": "POST",
-  }).then(res => res.json());
+    method: 'POST',
+  }).then((res) => res.json());
 }
 
 describe('pma flow', () => {
@@ -64,8 +64,8 @@ describe('pma flow', () => {
     await User.destroy({
       where: {},
       force: true,
-      truncate: {cascade: true},
-    })
+      truncate: { cascade: true },
+    });
   });
   it('register with contractId', async () => {
     const offer = await getOffer();
@@ -74,10 +74,10 @@ describe('pma flow', () => {
       body: {
         email: 'test@example.com',
         password: '@!#SAL:DMA:SKLM!@',
-        offerId: offer.saa_offer.id
-      }
+        offerId: offer.saa_offer.id,
+      },
     });
-    const contract = await Contract.findOne({where: {PmaOfferId: offer.saa_offer.id}});
+    const contract = await Contract.findOne({ where: { PmaOfferId: offer.saa_offer.id } });
     const pmaOffer = await contract.getPmaOffer();
     expect(contract.offerState).to.eq('created');
     expect(pmaOffer.id).to.eq(offer.saa_offer.id);
@@ -89,25 +89,25 @@ describe('pma flow', () => {
       body: {
         email: 'test2@example.com',
         password: '@!#SAL:DMA:SKLM!@',
-      }
+      },
     });
     const parsedCookies = parseCookies(res);
     const res2 = await global.web.post('/wcendpoint', {
-      'headers': {
-        'accept': '*/*',
-        'cookie': parsedCookies,
+      headers: {
+        accept: '*/*',
+        cookie: parsedCookies,
       },
       body: {
         pma_price_id: offer.saa_offer.id,
-      }
+      },
     });
     expect(res2.url).to.contains('/en/dashboard');
-    const contract = await Contract.findOne({where: {PmaOfferId: offer.saa_offer.id}});
+    const contract = await Contract.findOne({ where: { PmaOfferId: offer.saa_offer.id } });
     const res3 = await global.web.get(`/en/contract/order/${contract.id}`, {
-      'headers': {
-        'accept': '*/*',
-        'cookie': parsedCookies,
-      }
+      headers: {
+        accept: '*/*',
+        cookie: parsedCookies,
+      },
     });
   });
 });

@@ -1,4 +1,6 @@
-const {expect} = require('chai');
+/* global describe it */
+
+const { expect } = require('chai');
 require('../global');
 
 describe('smoketests', () => {

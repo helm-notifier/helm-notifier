@@ -20,8 +20,8 @@ function emoji(str) {
   return gemoji.name[str] ? gemoji.name[str].emoji : '';
 }
 
-function formatEuro (number) {
-  return (Number.parseFloat(number || 0).toFixed(2) + ' €').replace(/\./, ",");
+function formatEuro(number) {
+  return (`${Number.parseFloat(number || 0).toFixed(2)} €`).replace(/\./, ',');
 }
 
 const validateSteuerNummer = new RegExp(/([0-9]{2,3}\/?[0-9]{3,4}\/?[0-9]{4,5})|([1-59][0-9]{12})/);
@@ -42,5 +42,5 @@ module.exports = {
   dashify,
   humanize,
   formatEuro,
-  ...customFonts
+  ...customFonts,
 };

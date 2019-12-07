@@ -21,11 +21,10 @@ router
     '/:provider',
     policies.ensureLoggedOut,
     web.auth.catchError,
-    (ctx, next) =>
-      passport.authenticate(
-        ctx.params.provider,
-        config.auth[ctx.params.provider]
-      )(ctx, next)
+    (ctx, next) => passport.authenticate(
+      ctx.params.provider,
+      config.auth[ctx.params.provider],
+    )(ctx, next),
   )
   .get(
     '/:provider/ok',
@@ -37,9 +36,9 @@ router
         : `/${ctx.locale}${config.passportCallbackOptions.successReturnToOrRedirect}`;
       return passport.authenticate(ctx.params.provider, {
         ...config.passportCallbackOptions,
-        successReturnToOrRedirect: redirect
+        successReturnToOrRedirect: redirect,
       })(ctx, next);
-    }
+    },
   );
 
 if (boolean(process.env.AUTH_GOOGLE_ENABLED)) {
@@ -50,8 +49,8 @@ if (boolean(process.env.AUTH_GOOGLE_ENABLED)) {
     passport.authenticate('google', {
       accessType: 'offline',
       prompt: 'consent', // See google strategy in passport helper
-      scope: []
-    })
+      scope: [],
+    }),
   );
 }
 

@@ -1,26 +1,26 @@
+/* global describe it */
+
 const util = require('util');
-const {expect} = require('chai');
+const { expect } = require('chai');
 require('../global');
-const phrases = require('../../config/phrases');
-const {User, Contract} = require('../../app/models');
-const bull = require('../../bull');
 const faker = require('faker');
+const phrases = require('../../config/phrases');
+const { User, Contract } = require('../../app/models');
+const bull = require('../../bull');
 
-const wait = ms => new Promise(r => setTimeout(r, ms));
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const retryOperation = (operation, delay, times) => new Promise((resolve, reject) => {
-  return operation()
-    .then(resolve)
-    .catch((reason) => {
-      if (times - 1 > 0) {
-        return wait(delay)
-          .then(retryOperation.bind(null, operation, delay, times - 1))
-          .then(resolve)
-          .catch(reject);
-      }
-      return reject(reason);
-    });
-});
+const retryOperation = (operation, delay, times) => new Promise((resolve, reject) => operation()
+  .then(resolve)
+  .catch((reason) => {
+    if (times - 1 > 0) {
+      return wait(delay)
+        .then(retryOperation.bind(null, operation, delay, times - 1))
+        .then(resolve)
+        .catch(reject);
+    }
+    return reject(reason);
+  }));
 
 function parseCookies(response) {
   const raw = response.headers.raw()['set-cookie'];
@@ -42,7 +42,7 @@ describe('mail', () => {
         password: '@!#SAL:DMA:SKLM!@',
         given_name: faker.name.firstName(),
         family_name: faker.name.lastName(),
-      }
+      },
     });
   });
 });

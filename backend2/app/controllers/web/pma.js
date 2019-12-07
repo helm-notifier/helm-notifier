@@ -3,7 +3,7 @@ const config = require('../../../config');
 
 async function redirectToRegister(ctx) {
   return ctx.redirect(
-    `/${ctx.locale}/register?offerId=${ctx.request.body.pma_price_id}`
+    `/${ctx.locale}/register?offerId=${ctx.request.body.pma_price_id}`,
   );
 }
 async function addOffer(ctx, next) {
@@ -13,7 +13,7 @@ async function addOffer(ctx, next) {
       UserId: ctx.state.user.id,
     });
     return ctx.redirect(
-      `/dashboard`
+      '/dashboard',
     );
   }
   return next();

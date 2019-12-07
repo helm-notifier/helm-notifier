@@ -16,7 +16,7 @@ router
     '/dashboard',
     policies.ensureLoggedIn,
     web.breadcrumbs,
-    web.myAccount.dashboard
+    web.myAccount.dashboard,
     // render('dashboard')
   )
   .get('/about', render('about'))

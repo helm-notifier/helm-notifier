@@ -4,29 +4,30 @@ const queues = [
   {
     name: 'email',
     options: {
-      attempts: 5
+      attempts: 5,
     },
     processors: [
       {
         processor: path.join(__dirname, 'email.js'),
-        concurrency: 10
-      }
-    ]
-  }
+        concurrency: 10,
+      },
+    ],
+  },
 ];
 
-if (process.env.GOOGLE_TRANSLATE_KEY)
+if (process.env.GOOGLE_TRANSLATE_KEY) {
   queues.push({
     name: 'mandarin',
     options: {
-      attempts: 1
+      attempts: 1,
     },
     processors: [
       {
         processor: path.join(__dirname, 'mandarin.js'),
-        concurrency: 1
-      }
-    ]
+        concurrency: 1,
+      },
+    ],
   });
+}
 
 module.exports = queues;

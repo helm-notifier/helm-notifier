@@ -1,4 +1,4 @@
-const {extname} = require('path');
+const { extname } = require('path');
 
 const _ = require('lodash');
 const titleize = require('titleize');
@@ -21,9 +21,11 @@ function breadcrumbs(ctx, next) {
   ctx.state.meta.title = ctx.request.t(
     breadcrumbs.length === 1
       ? titleize(breadcrumbs[0])
-      : `${titleize(breadcrumbs[0])} - ${titleize(breadcrumbs[1])}`
+      : `${titleize(breadcrumbs[0])} - ${titleize(breadcrumbs[1])}`,
   );
   return next();
 }
 
-module.exports = {support, auth, admin, myAccount, pma, contract, breadcrumbs};
+module.exports = {
+  support, auth, admin, myAccount, pma, contract, breadcrumbs,
+};

@@ -28,6 +28,6 @@ module.exports = {
     testCoverage: series('nps pretest', 'nyc ava'),
     testUpdateSnapshots: series('nps pretest', 'ava --update-snapshots'),
 
-    coverage: 'nyc report --reporter=text-lcov > coverage.lcov && codecov'
-  }
+    coverage: 'nyc report --reporter=text-lcov > coverage.lcov && codecov',
+  },
 };

@@ -13,26 +13,26 @@ const api = new API({
   routes: routes.api,
   logger,
   i18n,
-  passport
+  passport,
 });
 
 if (!module.parent) {
   const graceful = new Graceful({
     servers: [api],
     redisClients: [api.client],
-    logger
+    logger,
   });
 
   (async () => {
     try {
       await Promise.all([
         api.listen(api.config.port),
-        graceful.listen()
+        graceful.listen(),
       ]);
       if (process.send) process.send('ready');
       const { port } = api.server.address();
       logger.info(
-        `Lad API server listening on ${port} (LAN: ${ip.address()}:${port})`
+        `Lad API server listening on ${port} (LAN: ${ip.address()}:${port})`,
       );
     } catch (err) {
       logger.error(err);

@@ -9,7 +9,7 @@ const consolidate = require('consolidate');
 const pino = require('pino');
 const manifestRev = require('manifest-rev');
 const strength = require('strength');
-const {Signale} = require('signale');
+const { Signale } = require('signale');
 
 const pkg = require('../package');
 const env = require('./env');
@@ -52,7 +52,7 @@ const config = {
       orderActivated: parseInt(env.MAILET_TPL_ORDER_ACTIVATED),
       paymentDetailsUpdated: parseInt(env.MAILET_TPL_PAYMENTDATA_UPDATED),
       newOffer: parseInt(env.MAILET_TPL_ORDER_CREATED_BY_SA),
-    }
+    },
   },
   // app
   supportRequestMaxLength: env.SUPPORT_REQUEST_MAX_LENGTH,
@@ -63,13 +63,13 @@ const config = {
       env === 'production'
         ? pino({
           customLevels: {
-            log: 30
-          }
+            log: 30,
+          },
         })
-        : new Signale()
+        : new Signale(),
   },
   livereload: {
-    port: env.LIVERELOAD_PORT
+    port: env.LIVERELOAD_PORT,
   },
   appName: env.APP_NAME,
   appColor: env.APP_COLOR,
@@ -80,7 +80,7 @@ const config = {
     // but for complete configuration reference please see:
     // <https://github.com/mashpie/i18n-node#list-of-all-configuration-options>
     phrases,
-    directory: path.join(__dirname, '..', 'locales')
+    directory: path.join(__dirname, '..', 'locales'),
   },
 
   // <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property>
@@ -99,7 +99,7 @@ const config = {
     options: {
       extension: 'pug',
       map: {},
-      engineSource: consolidate
+      engineSource: consolidate,
     },
     // A complete reference of options for Pug (default):
     // <https://pugjs.org/api/reference.html>
@@ -113,8 +113,8 @@ const config = {
       // compileDebug: env.NODE_ENV === 'development',
       ...utilities,
       polyfills,
-      filters: {}
-    }
+      filters: {},
+    },
   },
 
   // @ladjs/passport configuration (see defaults in package)
@@ -130,8 +130,8 @@ const config = {
       avatarURL: 'avatar_url',
       googleProfileID: 'google_profile_id',
       googleAccessToken: 'google_access_token',
-      googleRefreshToken: 'google_refresh_token'
-    }
+      googleRefreshToken: 'google_refresh_token',
+    },
   },
 
   // passport-local-mongoose options
@@ -155,7 +155,7 @@ const config = {
       fn(
         howStrong < 3
           ? Boom.badRequest(phrases.INVALID_PASSWORD_STRENGTH)
-          : null
+          : null,
       );
     },
     errorMessages: {
@@ -166,8 +166,8 @@ const config = {
       IncorrectPasswordError: phrases.PASSPORT_INCORRECT_PASSWORD_ERROR,
       IncorrectUsernameError: phrases.PASSPORT_INCORRECT_USERNAME_ERROR,
       MissingUsernameError: phrases.PASSPORT_MISSING_USERNAME_ERROR,
-      UserExistsError: phrases.PASSPORT_USER_EXISTS_ERROR
-    }
+      UserExistsError: phrases.PASSPORT_USER_EXISTS_ERROR,
+    },
   },
 
   // passport callback options
@@ -175,19 +175,19 @@ const config = {
     successReturnToOrRedirect: '/dashboard',
     failureRedirect: '/login',
     successFlash: true,
-    failureFlash: true
+    failureFlash: true,
   },
 
   // store IP address
   // <https://github.com/ladjs/store-ip-address>
   storeIPAddress: {
     ip: 'ip',
-    lastIps: 'last_ips'
+    lastIps: 'last_ips',
   },
 
   // field name for a user's last locale
   // (this gets re-used by email-templates and @ladjs/i18n; see below)
-  lastLocaleField: 'last_locale'
+  lastLocaleField: 'last_locale',
 };
 
 // set build dir based off build base dir name
@@ -204,7 +204,7 @@ config.meta = meta(config);
 const logger = new Axe(config.logger);
 const i18n = new I18N({
   ...config.i18n,
-  logger
+  logger,
 });
 
 // add manifest helper for rev-manifest.json support
@@ -214,7 +214,7 @@ config.views.locals.manifest = manifestRev({
     env.AWS_CLOUDFRONT_DOMAIN && env.NODE_ENV === 'production'
       ? `//${env.AWS_CLOUDFRONT_DOMAIN}/`
       : '/',
-  manifest: config.manifest
+  manifest: config.manifest,
 });
 
 // add pug filter for easy translation of nested blocks

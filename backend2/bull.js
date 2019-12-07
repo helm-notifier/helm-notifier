@@ -9,14 +9,14 @@ const bull = new Bull({
   logger,
   queues,
   queue: {
-    prefix: `bull_${config.env}`
-  }
+    prefix: `bull_${config.env}`,
+  },
 });
 
 if (!module.parent) {
   const graceful = new Graceful({
     bulls: [bull],
-    logger
+    logger,
   });
 
   (async () => {

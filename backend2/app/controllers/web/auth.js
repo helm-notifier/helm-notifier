@@ -6,17 +6,16 @@ const _ = require('lodash');
 const validator = require('validator');
 const sanitizeHtml = require('sanitize-html');
 const strength = require('strength');
-const phrases = require('../../../config/phrases')
+const phrases = require('../../../config/phrases');
 const bull = require('../../../bull');
-const {User, Contract} = require('../../models');
+const { User, Contract } = require('../../models');
 const passport = require('../../../helpers/passport');
 const config = require('../../../config');
 
-const sanitize = str =>
-  sanitizeHtml(str, {
-    allowedTags: [],
-    allowedAttributes: []
-  });
+const sanitize = (str) => sanitizeHtml(str, {
+  allowedTags: [],
+  allowedAttributes: [],
+});
 
 function logout(ctx) {
   ctx.logout();
@@ -27,7 +26,7 @@ function logout(ctx) {
     toast: true,
     showConfirmButton: false,
     timer: 3000,
-    position: 'top'
+    position: 'top',
   });
   ctx.redirect(`/${ctx.locale}`);
 }
@@ -44,36 +43,36 @@ async function registerOrLogin(ctx) {
 
   // prevents lad being used as a open redirect
   if (
-    ctx.session.returnTo &&
-    ctx.session.returnTo.indexOf('://') !== -1 &&
-    ctx.session.returnTo.indexOf(config.urls.web) !== 0
+    ctx.session.returnTo
+    && ctx.session.returnTo.indexOf('://') !== -1
+    && ctx.session.returnTo.indexOf(config.urls.web) !== 0
   ) {
     ctx.logger.warn(
-      `Prevented abuse with returnTo hijacking to ${ctx.session.returnTo}`
+      `Prevented abuse with returnTo hijacking to ${ctx.session.returnTo}`,
     );
     ctx.session.returnTo = null;
   }
 
-  ctx.state.verb =
-    ctx.pathWithoutLocale === '/register' ? 'sign up' : 'sign in';
+  ctx.state.verb = ctx.pathWithoutLocale === '/register' ? 'sign up' : 'sign in';
 
   await ctx.render('register-or-login');
 }
 
 async function homeOrDashboard(ctx) {
   // If the user is logged in then take them to their dashboard
-  if (ctx.isAuthenticated())
+  if (ctx.isAuthenticated()) {
     return ctx.redirect(
-      `/${ctx.locale}${config.passportCallbackOptions.successReturnToOrRedirect}`
+      `/${ctx.locale}${config.passportCallbackOptions.successReturnToOrRedirect}`,
     );
+  }
   // Manually set page title since we don't define Home route in config/meta
   ctx.state.meta = {
     title: sanitize(
       ctx.request.t(
-        `Home &#124; <span class="notranslate">${config.appName}</span>`
-      )
+        `Home &#124; <span class="notranslate">${config.appName}</span>`,
+      ),
     ),
-    description: sanitize(ctx.request.t(config.pkg.description))
+    description: sanitize(ctx.request.t(config.pkg.description)),
   };
   await ctx.render('home');
 }
@@ -83,7 +82,7 @@ async function login(ctx, next) {
     if (err) {
       if (err.message === phrases.PASSPORT_INCORRECT_USERNAME_ERROR) {
         return ctx.throw(
-          Boom.unauthorized(err.message)
+          Boom.unauthorized(err.message),
         );
       }
       throw err;
@@ -91,8 +90,8 @@ async function login(ctx, next) {
 
     // redirect user to their last locale they were using
     if (
-      isSANB(user[config.lastLocaleField]) &&
-      user[config.lastLocaleField] !== ctx.locale
+      isSANB(user[config.lastLocaleField])
+      && user[config.lastLocaleField] !== ctx.locale
     ) {
       ctx.state.locale = user[config.lastLocaleField];
       ctx.request.locale = ctx.state.locale;
@@ -114,8 +113,7 @@ async function login(ctx, next) {
       }
 
       let greeting = 'Good morning';
-      if (moment().format('HH') >= 12 && moment().format('HH') <= 17)
-        greeting = 'Good afternoon';
+      if (moment().format('HH') >= 12 && moment().format('HH') <= 17) greeting = 'Good afternoon';
       else if (moment().format('HH') >= 17) greeting = 'Good evening';
 
       ctx.flash('custom', {
@@ -127,11 +125,11 @@ async function login(ctx, next) {
         toast: true,
         showConfirmButton: false,
         timer: 3000,
-        position: 'top'
+        position: 'top',
       });
 
       if (ctx.accepts('json')) {
-        ctx.body = {redirectTo};
+        ctx.body = { redirectTo };
       } else {
         ctx.redirect(redirectTo);
       }
@@ -146,27 +144,25 @@ async function login(ctx, next) {
 }
 
 async function register(ctx) {
-  const {body} = ctx.request;
+  const { body } = ctx.request;
 
-  if (!_.isString(body.email) || !validator.isEmail(body.email))
-    throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
+  if (!_.isString(body.email) || !validator.isEmail(body.email)) throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
 
-  if (!isSANB(body.password))
-    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD'));
+  if (!isSANB(body.password)) throw Boom.badRequest(ctx.translate('INVALID_PASSWORD'));
 
   // register the user
   const count = await User.count({
     where: {
-      group: 'admin'
-    }
+      group: 'admin',
+    },
   });
-  const checkUser = await User.findOne({where: {email: body.email}});
-  //Todo extract logic to some place else
+  const checkUser = await User.findOne({ where: { email: body.email } });
+  // Todo extract logic to some place else
   if (checkUser !== null) {
-    throw Boom.badRequest(ctx.translate('PASSPORT_USER_EXISTS_ERROR'))
+    throw Boom.badRequest(ctx.translate('PASSPORT_USER_EXISTS_ERROR'));
   }
   if (strength(body.password) < 3) {
-    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_STRENGTH'))
+    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_STRENGTH'));
   }
   const user = await User.create({
     email: body.email,
@@ -181,7 +177,7 @@ async function register(ctx) {
     await Contract.create({
       UserId: user.id,
       PmaOfferId: body.offerId,
-    })
+    });
   }
   let redirectTo = `/${ctx.locale}${config.passportCallbackOptions.successReturnToOrRedirect}`;
 
@@ -197,24 +193,23 @@ async function register(ctx) {
     toast: true,
     showConfirmButton: false,
     timer: 3000,
-    position: 'top'
+    position: 'top',
   });
 
   if (ctx.accepts('json')) {
-    ctx.body = {redirectTo};
+    ctx.body = { redirectTo };
   } else {
     ctx.redirect(redirectTo);
   }
 }
 
 async function forgotPassword(ctx) {
-  const {body} = ctx.request;
+  const { body } = ctx.request;
 
-  if (!_.isString(body.email) || !validator.isEmail(body.email))
-    throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
+  if (!_.isString(body.email) || !validator.isEmail(body.email)) throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
 
   // lookup the user
-  const user = await User.findOne({where: {email: body.email}});
+  const user = await User.findOne({ where: { email: body.email } });
 
   // to prevent people from being able to find out valid email accounts
   // we always say "a password reset request has been sent to your email"
@@ -222,7 +217,7 @@ async function forgotPassword(ctx) {
   if (!user) {
     if (ctx.accepts('json')) {
       ctx.body = {
-        message: ctx.translate('PASSWORD_RESET_SENT')
+        message: ctx.translate('PASSWORD_RESET_SENT'),
       };
     } else {
       ctx.flash('success', ctx.translate('PASSWORD_RESET_SENT'));
@@ -234,18 +229,19 @@ async function forgotPassword(ctx) {
 
   // if we've already sent a reset password request in the past half hour
   if (
-    user.reset_token_expires_at &&
-    user.reset_token &&
-    moment(user.reset_token_expires_at).isAfter(
-      moment().subtract(30, 'minutes')
+    user.reset_token_expires_at
+    && user.reset_token
+    && moment(user.reset_token_expires_at).isAfter(
+      moment().subtract(30, 'minutes'),
     )
-  )
+  ) {
     throw Boom.badRequest(
       ctx.translate(
         'PASSWORD_RESET_LIMIT',
-        moment(user.reset_token_expires_at).fromNow()
-      )
+        moment(user.reset_token_expires_at).fromNow(),
+      ),
     );
+  }
 
   // set the reset token and expiry
   user.reset_token_expires_at = moment()
@@ -257,7 +253,7 @@ async function forgotPassword(ctx) {
 
   if (ctx.accepts('json')) {
     ctx.body = {
-      message: ctx.translate('PASSWORD_RESET_SENT')
+      message: ctx.translate('PASSWORD_RESET_SENT'),
     };
   } else {
     ctx.flash('success', ctx.translate('PASSWORD_RESET_SENT'));
@@ -269,26 +265,25 @@ async function forgotPassword(ctx) {
     const job = await bull.add('email', {
       template: 'reset-password',
       message: {
-        to: user.full_email
+        to: user.full_email,
       },
       locals: {
         user: _.pick(user, [
           config.passport.fields.displayName,
-          'reset_token_expires_at'
+          'reset_token_expires_at',
         ]),
-        link: `${config.urls.web}/reset-password/${user.reset_token}`
-      }
+        link: `${config.urls.web}/reset-password/${user.reset_token}`,
+      },
     });
-    ctx.logger.info('added job', bull.getMeta({job}));
+    ctx.logger.info('added job', bull.getMeta({ job }));
   } catch (err) {
     ctx.logger.error(err);
   }
 }
 
 async function verifyEmail(ctx) {
-  const user = await User.findOne({where: {verify_token: ctx.params.token}});
-  if (user === null)
-    if (!user) throw Boom.badRequest(ctx.translate('INVALID_VERIFY_TOKEN'));
+  const user = await User.findOne({ where: { verify_token: ctx.params.token } });
+  if (user === null) if (!user) throw Boom.badRequest(ctx.translate('INVALID_VERIFY_TOKEN'));
 
   user.verify_token = null;
   user.emailVerified = true;
@@ -297,7 +292,7 @@ async function verifyEmail(ctx) {
   if (ctx.accepts('json')) {
     ctx.body = {
       message: ctx.translate('VERIFIED_EMAIL'),
-      redirectTo: `/${ctx.locale}`
+      redirectTo: `/${ctx.locale}`,
     };
   } else {
     ctx.flash('success', ctx.translate('VERIFIED_EMAIL'));
@@ -306,28 +301,25 @@ async function verifyEmail(ctx) {
 }
 
 async function resetPassword(ctx) {
-  const {body} = ctx.request;
+  const { body } = ctx.request;
 
-  if (!_.isString(body.email) || !validator.isEmail(body.email))
-    throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
+  if (!_.isString(body.email) || !validator.isEmail(body.email)) throw Boom.badRequest(ctx.translate('INVALID_EMAIL'));
 
-  if (!isSANB(body.password))
-    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD'));
+  if (!isSANB(body.password)) throw Boom.badRequest(ctx.translate('INVALID_PASSWORD'));
 
-  if (!isSANB(ctx.params.token))
-    throw Boom.badRequest(ctx.translate('INVALID_RESET_TOKEN'));
+  if (!isSANB(ctx.params.token)) throw Boom.badRequest(ctx.translate('INVALID_RESET_TOKEN'));
 
   // lookup the user that has this token and if it matches the email passed
   const user = await User.findOne({
     where: {
       email: body.email,
       reset_token: ctx.params.token,
-    }
+    },
   });
 
   if (!user) throw Boom.badRequest(ctx.translate('INVALID_RESET_PASSWORD'));
   if (strength(body.password) < 3) {
-    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_STRENGTH'))
+    throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_STRENGTH'));
   }
   user.reset_token = null;
   user.reset_at = null;
@@ -337,7 +329,7 @@ async function resetPassword(ctx) {
   if (ctx.accepts('json')) {
     ctx.body = {
       message: ctx.translate('RESET_PASSWORD'),
-      redirectTo: `/${ctx.locale}`
+      redirectTo: `/${ctx.locale}`,
     };
   } else {
     ctx.flash('success', ctx.translate('RESET_PASSWORD'));
@@ -349,8 +341,7 @@ async function catchError(ctx, next) {
   try {
     await next();
   } catch (err) {
-    if (ctx.params.provider === 'google' && err.message === 'Consent required')
-      return ctx.redirect('/auth/google/consent');
+    if (ctx.params.provider === 'google' && err.message === 'Consent required') return ctx.redirect('/auth/google/consent');
     ctx.flash('error', err.message);
     ctx.redirect('/login');
   }

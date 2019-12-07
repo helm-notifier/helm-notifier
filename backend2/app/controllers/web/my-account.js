@@ -2,32 +2,30 @@ const humanize = require('humanize-string');
 const isSANB = require('is-string-and-not-blank');
 const Boom = require('@hapi/boom');
 const render = require('koa-views-render');
-const {PmaOffer} = require('../../models');
+const { PmaOffer } = require('../../models');
 const config = require('../../../config');
-const {pma} = require('../../../helpers');
+const { pma } = require('../../../helpers');
 
 async function update(ctx) {
-  const {body} = ctx.request;
+  const { body } = ctx.request;
 
   if (body.change_password === 'true') {
-    ['old_password', 'password', 'confirm_password'].forEach(prop => {
-      if (!isSANB(body[prop]))
+    ['old_password', 'password', 'confirm_password'].forEach((prop) => {
+      if (!isSANB(body[prop])) {
         throw Boom.badRequest(
-          ctx.translate('INVALID_STRING', ctx.request.t(humanize(prop)))
+          ctx.translate('INVALID_STRING', ctx.request.t(humanize(prop))),
         );
+      }
     });
 
-    if (body.password !== body.confirm_password)
-      throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_CONFIRM'));
+    if (body.password !== body.confirm_password) throw Boom.badRequest(ctx.translate('INVALID_PASSWORD_CONFIRM'));
 
     await ctx.state.user.changePassword(body.old_password, body.password);
     ctx.state.user.reset_token = null;
     ctx.state.user.reset_at = null;
   } else {
-    ctx.state.user[config.passport.fields.givenName] =
-      body[config.passport.fields.givenName];
-    ctx.state.user[config.passport.fields.familyName] =
-      body[config.passport.fields.familyName];
+    ctx.state.user[config.passport.fields.givenName] = body[config.passport.fields.givenName];
+    ctx.state.user[config.passport.fields.familyName] = body[config.passport.fields.familyName];
     ctx.state.user.phoneNumber = body.phoneNumber;
     ctx.state.user.companyName = body.companyName;
     ctx.state.user.companyStreet = body.companyStreet;
@@ -46,7 +44,7 @@ async function update(ctx) {
     await ctx.state.user.save();
   } catch (e) {
     throw Boom.badRequest(
-      e.message
+      e.message,
     );
   }
 
@@ -58,11 +56,11 @@ async function update(ctx) {
     toast: true,
     showConfirmButton: false,
     timer: 3000,
-    position: 'top'
+    position: 'top',
   });
 
   if (ctx.accepts('json')) {
-    ctx.body = {reloadPage: true};
+    ctx.body = { reloadPage: true };
   } else {
     ctx.redirect('back');
   }
@@ -79,11 +77,11 @@ async function resetAPIToken(ctx) {
     toast: true,
     showConfirmButton: false,
     timer: 3000,
-    position: 'top'
+    position: 'top',
   });
 
   if (ctx.accepts('json')) {
-    ctx.body = {reloadPage: true};
+    ctx.body = { reloadPage: true };
   } else {
     ctx.redirect('back');
   }
@@ -91,14 +89,14 @@ async function resetAPIToken(ctx) {
 
 async function dashboard(ctx) {
   ctx.state.contracts = await ctx.state.user.getContracts({
-    include: [{model: PmaOffer}]
+    include: [{ model: PmaOffer }],
   });
   ctx.state.PmaConfig = await pma.getConfig();
-  return ctx.render('dashboard')
+  return ctx.render('dashboard');
 }
 
 module.exports = {
   dashboard,
   update,
-  resetAPIToken
+  resetAPIToken,
 };

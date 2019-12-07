@@ -5,7 +5,7 @@ const logger = require('./logger');
 
 const i18n = new I18N({
   ...config.i18n,
-  logger
+  logger,
 });
 
 module.exports = i18n;
