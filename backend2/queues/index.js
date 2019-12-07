@@ -12,22 +12,60 @@ const queues = [
         concurrency: 10,
       },
     ],
-  },
-];
-
-if (process.env.GOOGLE_TRANSLATE_KEY) {
-  queues.push({
-    name: 'mandarin',
+  }, {
+    name: 'updateRepositories',
+    options: {
+      defaultJobOptions: {
+        repeat: {
+          cron: '*/60 * * * *',
+        },
+      },
+    },
+    processors: [
+      {
+        processor: path.join(__dirname, 'updateRepositories.js'),
+        concurrency: 1,
+      },
+    ],
+  }, {
+    name: 'triggerRepositoryUpdate',
+    options: {
+      defaultJobOptions: {
+        repeat: {
+          cron: '*/15 * * * *',
+        },
+      },
+    },
+    processors: [
+      {
+        processor: path.join(__dirname, 'triggerRepositoryUpdate.js'),
+        concurrency: 1,
+      },
+    ],
+  }, {
+    name: 'updateRepository',
     options: {
       attempts: 1,
     },
     processors: [
       {
-        processor: path.join(__dirname, 'mandarin.js'),
-        concurrency: 1,
+        processor: path.join(__dirname, 'updateRepository.js'),
+        concurrency: 3,
       },
     ],
-  });
-}
+  }, {
+    name: 'updateChart',
+    options: {
+      attempts: 1,
+    },
+    processors: [
+      {
+        processor: path.join(__dirname, 'updateChart.js'),
+        concurrency: 3,
+      },
+    ],
+  },
+];
+
 
 module.exports = queues;

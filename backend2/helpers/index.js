@@ -3,6 +3,7 @@ const logger = require('./logger');
 const i18n = require('./i18n');
 const passport = require('./passport');
 const pma = require('./pma');
+const helm = require('./helm');
 
 module.exports = {
   policies,
@@ -10,4 +11,5 @@ module.exports = {
   i18n,
   passport,
   pma,
+  helm,
 };

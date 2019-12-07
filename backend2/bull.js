@@ -22,11 +22,12 @@ if (!module.parent) {
   (async () => {
     try {
       await Promise.all([bull.start(), graceful.listen()]);
+      await bull.add('updateRepositories');
+      await bull.add('triggerRepositoryUpdate');
       if (process.send) process.send('ready');
       logger.info('Lad job scheduler started');
     } catch (err) {
       logger.error(err);
-      // eslint-disable-next-line unicorn/no-process-exit
       process.exit(1);
     }
   })();
