@@ -32,7 +32,6 @@ spec:
                                 key: database-uri
                                 name: database-uri
                   command:
-                      - timeout
-                      - $(shuf -i 3400-3800 -n 1)
-                      - npm
-                      - start
+                      - sh
+                      - -c
+                      - 'timeout $(shuf -i 3400-3800 -n 1) npm start'
