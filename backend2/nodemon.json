@@ -1,4 +1,0 @@
-{
-  "ignore": ["locales", "test", "build", "assets", "gulpfile.js"],
-  "ext": "js,pug"
-}
