@@ -4,10 +4,16 @@
       <router-link to="/repos" class="navbar-brand">
         Helm Notifier
       </router-link>
-      <div class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="search"/>
+      <form action="/search" class="form-inline">
+        <input
+          class="form-control mr-sm-2"
+          type="search"
+          name="query"
+          placeholder="search"
+          :value=this.$route.query.query
+        />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </div>
+      </form>
     </nav>
     <router-view/>
   </div>

@@ -29,7 +29,7 @@ export default {
       this.loading = true;
       console.log('test');
       const { repoName } = this.$route.params;
-      const { searchTerm } = this.$route.query;
+      const { query } = this.$route.query;
       console.log(this.$route.query);
       if (repoName) {
         fetch(`https://api.helm-notifier.com/repos/${repoName}`)
@@ -40,7 +40,7 @@ export default {
             return resJson;
           });
       } else {
-        fetch(`https://api.helm-notifier.com/search?query=${searchTerm}`)
+        fetch(`https://api.helm-notifier.com/search?query=${query}`)
           .then(res => res.json())
           .then((resJson) => {
             this.loading = false;

@@ -25,6 +25,11 @@ const routes = [
     name: 'chartView',
     component: () => import(/* webpackChunkName: "chartName" */ '../views/Chart.vue'),
   },
+  {
+    path: '/search',
+    name: 'searchPage',
+    component: () => import(/* webpackChunkName: "search" */ '../views/Search'),
+  },
 ];
 
 const router = new VueRouter({
