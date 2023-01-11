@@ -20,7 +20,7 @@
     "directory-tree": "^2.2.4",
     "elastic-apm-node": "^3.1.0",
     "js-yaml": "^3.13.1",
-    "knex": "^0.19.5",
+    "knex": "^2.4.0",
     "koa": "^2.8.1",
     "koa-bodyparser": "^4.2.1",
     "koa-ejs": "^4.2.0",
